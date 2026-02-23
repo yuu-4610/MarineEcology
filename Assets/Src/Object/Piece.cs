@@ -1,0 +1,126 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class Piece : MonoBehaviour
+{
+    public ObjectRefarence objectRefarence;
+    public FishNode fishNodeType; //Nodeタイプ
+    public int point { get; private set; } //得点数
+    private Rigidbody2D rigidbody2D; //物理演算
+    private CircleCollider2D circleCollider2D; //当たり判定
+
+    public bool isDestroyed = false; //このオブジェクトが存在するか
+    //合成後オブジェクト：生成後当たり判定を有効化
+    //NextObject：落下後当たり判定を有効化
+    public bool isSynthesis = false;
+    private bool processOrder = false; //処理順
+    public bool isJudgement { get; private set; } = false;
+    private static int fruits_serial = 0; //生成番号
+    private int my_serial; //生成番号格納用
+    private void Awake()
+    {
+        ++fruits_serial;
+        my_serial = fruits_serial;
+        point = 5 * (int)fishNodeType;
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        //コンポーネントの取得
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
+        //オブジェクトのコンポーネントのアクティブ初期値
+        //Nextオブジェクト → 非活性：合成後オブジェクト → 活性
+        if(!isSynthesis) circleCollider2D.enabled = false;
+        ObjectManager.Instance.Register(GenerateParentObjectName.Pieces.ToString(), this.gameObject);
+        // tag 名を指定
+        this.gameObject.tag = TagName.Piece.ToString();
+
+        //イベント登録
+        ObjectEventManager.Instance.ObjectDrop += ObjectDrop;
+        //駒合成時に下ベクトルに向ける
+        ObjectEventManager.Instance.PieceSyntghesis += PieceSyntghesis;
+    }
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        ObjectEventManager.Instance.ObjectDrop -= ObjectDrop;
+        ObjectEventManager.Instance.PieceSyntghesis -= PieceSyntghesis;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Vector2 v = rigidbody2D.velocity;
+        v.y = -4f;
+        rigidbody2D.velocity = v;
+    }
+    private void ObjectDrop()
+    {
+        //イベント発火後、当たり判定を有効にする
+        circleCollider2D.enabled = true;
+        IsJudge();
+    }
+    private void PieceSyntghesis()
+    {
+        //if(isSynthesis) rigidbody2D.gravityScale = 1f;
+        //circleCollider2D.enabled = true;
+    }
+    private void IsJudge()
+    {
+        isJudgement = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collisionObject)
+    {
+        //指定オブジェクトの確認
+        if (!collisionObject.gameObject.TryGetComponent(out Piece otherPiece)) return;
+        //Enumの確認
+        if (otherPiece.fishNodeType != fishNodeType) return;
+        //相互のオブジェクトを徹底調査
+        if (this == null || otherPiece == null || this.transform == null || otherPiece.transform == null) return;
+
+        StartCoroutine(PieceSyntghesisCoroutine(otherPiece));
+    }
+
+    private IEnumerator PieceSyntghesisCoroutine(Piece otherPiece)
+    {
+        //当たったPieceオブジェクトのisDestroyedが false であれば処理
+        if (!otherPiece.isDestroyed)
+        {
+            // my_serial の値が大きいオブジェクトに処理をさせる
+            if (my_serial < otherPiece.my_serial)
+            {
+                isDestroyed = true;
+                otherPiece.isDestroyed = true;
+
+                //次のオブジェクトがあれば実行
+                if (objectRefarence.pieceObjects.Length > (int)fishNodeType + 1)
+                {
+                    //次番号のオブジェクトを生成
+                    var nextObject = ObjectProcess.Instance.SynthesisPieceEvent(objectRefarence.pieceObjects[(int)fishNodeType + 1], this.gameObject, otherPiece, GenerateParentObjectName.Pieces.ToString());
+                    if(nextObject != null)
+                    {
+                        nextObject.GetComponent<Piece>().isSynthesis = true;
+                    }
+                    processOrder = true;
+                    IsJudge();
+                }
+                UIManager.Instance.SetPoint(otherPiece.point);
+            }
+            else
+            {
+                processOrder = true;
+            }
+            while (!processOrder) yield return null;
+            Destroy(this.gameObject);
+        }
+        
+    }
+}

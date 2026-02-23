@@ -1,0 +1,17 @@
+----------------------------------------------------------------
+Piece.cs
+【問題１】
+同時に３体が当たると最後に当たったやつが消えずMissingが起きた
+１、２対目のオブジェクトのisDestroyedがtrueになる前に参照したことが原因となる
+【解決策】
+処理条件に「if(!otherPiece.isDestroyed)」を加え対処
+【プログラム】
+if (!otherPiece.isDestroyed)
+{
+   if (my_serial < otherPiece.my_serial)
+   {
+       //処理
+   }
+   Destroy(this.gameObject);
+}
+----------------------------------------------------------------
