@@ -9,6 +9,7 @@ public class ObjectEventManager : MonoBehaviour
     public event Action ObjectDrop; //オブジェクトが落ちた時に発火
     public event Action PieceSyntghesis; //オブジェクト同士がくっついた時に発火
     public event Action ObjectGenerate; //オブジェクトを作成したときに発火
+    public event Action TrantitionGameToResult; //ゲーム終了時に発火
 
     // Use this for initialization
     private void Awake()
@@ -42,6 +43,10 @@ public class ObjectEventManager : MonoBehaviour
     public void ObjectGenerateEvent()
     {
         ObjectGenerate?.Invoke();
+    }
+    public void TrantitionGameToResultEvent()
+    {
+        TrantitionGameToResult?.Invoke();
     }
     public int GetObjectGenerateListenerCount()
     {

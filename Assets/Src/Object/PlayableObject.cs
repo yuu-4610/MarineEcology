@@ -33,8 +33,8 @@ public class PlayableObject : MonoBehaviour
         //ObjectManagerに登録
         ObjectManager.Instance.Register("PlayableObject", this.gameObject);
 
-        //イベント発火
-        Invoke(nameof(EventRegistration), 0.03f);
+        //イベント登録
+        //Invoke(nameof(EventRegistration), 0.03f);
      }
 
     void Update()

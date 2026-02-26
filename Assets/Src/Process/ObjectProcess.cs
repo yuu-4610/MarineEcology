@@ -27,7 +27,7 @@ public class ObjectProcess : MonoBehaviour
     }
     private void OnEnable()
     {
-        StartCoroutine(RegisterEvent());
+        
     }
     private void OnDisable()
     {
@@ -82,14 +82,6 @@ public class ObjectProcess : MonoBehaviour
         }
 
         return parent;
-    }
-
-    private IEnumerator RegisterEvent()
-    {
-        //ObjectEventManage Ç™ê∂ê¨Ç≥ÇÍÇÈÇ‹Ç≈ë“Ç¬
-        while (ObjectEventManager.Instance == null) yield return null;
-
-        //ObjectEventManager.Instance.ObjectGenerate += GeneratePieceObject;
     }
     
 }

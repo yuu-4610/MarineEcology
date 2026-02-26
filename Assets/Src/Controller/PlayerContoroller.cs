@@ -19,6 +19,14 @@ public class PlayerContoroller : MonoBehaviour
     void Update()
     {
         InputFuctin();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ObjectEventManager.Instance.TrantitionGameToResultEvent();
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            GameManager.Instance.SceneTrantition(SceneType.TitleScene);
+        }
     }
 
     private void InputFuctin()
