@@ -5,10 +5,12 @@ using UnityEngine;
 public class JudgeLine : MonoBehaviour
 {
     private BoxCollider2D boxCollider2D;
+    private SpriteRenderer spriteRenderer; //画像情報
     private float judgeCount = 0; //判定カウント
     private const int countRimit = 10; //判定上限
-    private SpriteRenderer spriteRenderer; //画像情報
+    private bool isGameFinish;
     // Start is called before the first frame update
+    
     void Start()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
@@ -31,10 +33,13 @@ public class JudgeLine : MonoBehaviour
         {
             // tag が Pieceの オブジェクトに触れてる間カウント → 10秒間触れていれば
             judgeCount += Time.deltaTime;
-            if (judgeCount >= countRimit)
+            if (judgeCount >= countRimit && !isGameFinish)
             {
                 //ゲーム終了
                 Debug.Log("ゲーム終了");
+                //イベント発火
+                //ObjectEventManager.Instance.TrantitionGameToResultEvent();
+                isGameFinish = true;
             }
         }
     }
