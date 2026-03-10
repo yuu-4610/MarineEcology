@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    public ObjectRefarence objectRefarence;
+    public ObjectReference objectReference;
     public FishNode fishNodeType; //Nodeタイプ
     public int point { get; private set; } //得点数
     private Rigidbody2D rigidbody2D; //物理演算
@@ -23,7 +23,7 @@ public class Piece : MonoBehaviour
     {
         ++fruits_serial;
         my_serial = fruits_serial;
-        point = 5 * (int)fishNodeType;
+        point = 5 * (int)fishNodeType + 1;
     }
 
     // Use this for initialization
@@ -86,6 +86,7 @@ public class Piece : MonoBehaviour
         //相互のオブジェクトを徹底調査
         if (this == null || otherPiece == null || this.transform == null || otherPiece.transform == null) return;
 
+        if (GameManager.Instance.testFlg) return;
         StartCoroutine(PieceSyntghesisCoroutine(otherPiece));
     }
 
@@ -101,10 +102,10 @@ public class Piece : MonoBehaviour
                 otherPiece.isDestroyed = true;
 
                 //次のオブジェクトがあれば実行
-                if (objectRefarence.pieceObjects.Length > (int)fishNodeType + 1)
+                if (objectReference.pieceObjects.Length > (int)fishNodeType + 1)
                 {
                     //次番号のオブジェクトを生成
-                    var nextObject = ObjectProcess.Instance.SynthesisPieceEvent(objectRefarence.pieceObjects[(int)fishNodeType + 1], this.gameObject, otherPiece, GenerateParentObjectName.Pieces.ToString());
+                    var nextObject = ObjectProcess.Instance.SynthesisPieceEvent(objectReference.pieceObjects[(int)fishNodeType + 1], this.gameObject, otherPiece, GenerateParentObjectName.Pieces.ToString());
                     if(nextObject != null)
                     {
                         nextObject.GetComponent<Piece>().isSynthesis = true;

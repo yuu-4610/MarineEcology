@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using TMPro;
 using Unity.Android.Gradle.Manifest;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,12 +13,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public static int sceneNumber; //シーン番号、遷移時に仕様
+    public int[] scores { get; private set; } //セーブ下リストのスコア + ゲーム終了時のスコア
+    public bool isPlayerControll = false; //プレイヤーの入力制限
 
     private GameData gameData; //スコア書き込み用変数
     private GameData loadData; //スコア読み取り用変数
-    private int[] scores; //セーブ下リストのスコア + ゲーム終了時のスコア
     private const int listLength = 3; //Jsonファイルの保存数（処理回数に使用）
     private bool isTitleSceneProcess = false; //タイトルシーン遷移時の処理制限
+
+    public bool testFlg; //テスト用 → Pieceオブジェクトの衝突時の処理を OFF にする
 
     // Start is called before the first frame update
     private void Awake()
@@ -41,8 +45,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ObjectEventManager.Instance.TrantitionGameToResult += GameFinish;
-        //SceneTrantition(SceneType.TitleScene);
-        GameScoreInitialize();
+        sceneNumber = (int)SceneType.TitleScene;
+        SceneTrantition(SceneType.TitleScene);
     }
 
     // Update is called once per frame
@@ -56,6 +60,8 @@ public class GameManager : MonoBehaviour
                 isTitleSceneProcess = false;
                 break;
             case 1: //ゲームシーン
+                //必ず消す
+                isPlayerControll = true;
                 break;
             case 2:
                 break;
@@ -63,11 +69,19 @@ public class GameManager : MonoBehaviour
     }
     public void SceneTrantition(SceneType sceneType)
     {
-        SceneManager.LoadScene(sceneType.ToString());
-        sceneNumber = (int)sceneType;
+        if (sceneNumber != (int)sceneType)
+        {
+            SceneManager.LoadScene(sceneType.ToString());
+            sceneNumber = (int)sceneType;
+        } 
+
         if(sceneNumber == (int)SceneType.TitleScene)
         {
             isTitleSceneProcess = true;
+        }
+        if(sceneNumber != (int)SceneType.GameScene)
+        {
+            isPlayerControll = true;
         }
     }
     //スコアランキングの取得（タイトル画面で実行）
@@ -99,10 +113,14 @@ public class GameManager : MonoBehaviour
         {
             scores[i] = loadData.myScores[i].myScore;
         }
+        
     }
     //GameScene 終了時の処理
-    public void GameFinish()
+    private void GameFinish()
     {
+        //PlayableObject の操作を不可能にする
+        isPlayerControll = false;
+        //マイスコアを更新
         GameScoreSave();
     }
     //スコアの取得とランキング更新
