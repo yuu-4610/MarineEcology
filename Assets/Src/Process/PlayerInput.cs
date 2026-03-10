@@ -5,6 +5,7 @@ public class PlayerInput
 {
     public int OptionButton()
     {
+        //オプションボタンの押下
         var shiftButtonValue = Input.GetKeyDown(KeyCode.LeftShift) ? 1 : Input.GetKeyDown(KeyCode.RightShift) ? 1 : 0;
 
         return shiftButtonValue;
