@@ -75,6 +75,7 @@ public class ObjectProcess : MonoBehaviour
     }
     private GameObject GetPanetObject(string name)
     {
+        //オブジェクトが存在しなければ新しく作成する
         if (!parents.TryGetValue(name, out var parent) || parent == null)
         {
             parent = new GameObject(name);

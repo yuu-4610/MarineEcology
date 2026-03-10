@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -9,7 +10,7 @@ public class PlayableObject : MonoBehaviour
     private GameObject pieceObject; //落とすオブジェクト
     private float initializeXPosition; //プレイアブルオブジェクトのX座標取得
     private float initializeYPosition; //プレイアブルオブジェクトのy座標取得
-    public ObjectRefarence objectRefarece; //プレハブ生成用
+    public ObjectReference objectReferece; //プレハブ生成用
     public int randomValues; //ランダム値
     [SerializeField] int rangeValues; //範囲値
     [SerializeField] int randomRangeMaxValues; //ランダム範囲のマックス値
@@ -39,7 +40,8 @@ public class PlayableObject : MonoBehaviour
 
     void Update()
     {
-        
+        //プレイヤーの移動処理をピースオブジェクトにも反映
+        PieceObjectMove();
     }
 
     public void ObjectMove(float inputMove)
@@ -49,15 +51,8 @@ public class PlayableObject : MonoBehaviour
         //オブジェクトの行動範囲（ intializeXPosition +-rangeValues ）を制限
         mousePoint.x = Mathf.Clamp(mousePoint.x, initializeXPosition - rangeValues, initializeXPosition + rangeValues);
         transform.position = mousePoint;
-
-        //プレイヤーの移動処理を駒にも反映
-        if (pieceObject != null)
-        {
-            var piecePoint = new Vector2(this.transform.position.x, initializeYPosition - removePiecePoint);
-            pieceObject.transform.position = piecePoint;
-        }
     }
-    public void ObjectDrop()
+    public void PieceObjectDrop()
     {
         if (pieceObject = null) return;
         //発火
@@ -69,6 +64,15 @@ public class PlayableObject : MonoBehaviour
         //１秒後にオブジェクトを生成
         StartCoroutine(GenerateObject());
     }
+    public void PieceObjectMove()
+    {
+        //ピースオブジェクトが存在しているならば
+        if (pieceObject != null)
+        {
+            var piecePoint = new Vector2(this.transform.position.x, initializeYPosition - removePiecePoint);
+            pieceObject.transform.position = piecePoint;
+        }
+    }
 
 
     private IEnumerator GenerateObject()
@@ -77,7 +81,8 @@ public class PlayableObject : MonoBehaviour
         //次のオブジェクトを生成
         var generateObjectIndex = randomValues;
 
-        var generateObject = ObjectProcess.Instance.GeneratePieceObject(objectRefarece.pieceObjects[generateObjectIndex], gameObject.transform, GenerateParentObjectName.Pieces.ToString());
+        //次のオブジェクトの生成・変数への代入
+        var generateObject = ObjectProcess.Instance.GeneratePieceObject(objectReferece.pieceObjects[generateObjectIndex], gameObject.transform, GenerateParentObjectName.Pieces.ToString());
         pieceObject = generateObject;
     }
     private void EventRegistration()

@@ -29,3 +29,9 @@ public enum TagName
 {
     Piece, //ピース
 }
+
+public enum ReferenceObjectName
+{
+    Canvas_GameScene, //ゲームシーンのキャンバス
+    PlayableObject, //プレイアブルオブジェクト
+}

@@ -99,8 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0dcec20a4d69c4c927c2b311a475d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectRefarece: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
+  objectReferece: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
   randomValues: 0
   rangeValues: 3
   randomRangeMaxValues: 0
-  removePiecePoint: 0.5

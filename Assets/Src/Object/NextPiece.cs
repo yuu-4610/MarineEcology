@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class NextPiece : MonoBehaviour
 {
-    public ObjectRefarence objectRefarence;
+    public ObjectReference objectReference;
     [SerializeField] GameObject[] piecesPosition; //Nextオブジェクトを設置する位置
     private GameObject[] nextPieceObject; //Nextオブジェクトを格納（３つまで）
-    private GameObject[] piecesObject;
 
     private int[] nextPieceIndex; //Nextオブジェクトのオブジェクト番号（enumから
     private int randomRangeMaxValues; //ランダム値
     private const int pieceObjectMaxValue = 3; //オブジェクト生成数
-
-    [SerializeField] GameObject playerObject;
 
     // Start is called before the first frame update
 
@@ -27,7 +24,7 @@ public class NextPiece : MonoBehaviour
         for (int i = 0; i < piecesPosition.Length; i++)
         {
             var randomValues = Random.Range(0, randomRangeMaxValues);
-            nextPieceObject[i] = ObjectProcess.Instance.GeneratePieceObject(objectRefarence.nextPieces[randomValues], piecesPosition[i].transform, GenerateParentObjectName.NextPieces.ToString());
+            nextPieceObject[i] = ObjectProcess.Instance.GeneratePieceObject(objectReference.nextPieces[randomValues], piecesPosition[i].transform, GenerateParentObjectName.NextPieces.ToString());
             nextPieceIndex[i] = randomValues;
         }
         //イベント登録
@@ -51,7 +48,7 @@ public class NextPiece : MonoBehaviour
     {
         //Playerクラスに要素：０の参照を渡す
         //Playerオブジェクトの登録がない場合は、ObjectManagerのplayerオブジェクトを使用
-        ObjectManager.Instance.Get<PlayableObject>("PlayableObject", objectRefarence.player).randomValues = nextPieceIndex[0];
+        ObjectManager.Instance.Get<PlayableObject>(ReferenceObjectName.PlayableObject.ToString(), objectReference.player).randomValues = nextPieceIndex[0];
         //要素：０のオブジェクトを破壊
         Destroy(nextPieceObject[0]);
         //Nextオブジェクトを更新
@@ -69,7 +66,7 @@ public class NextPiece : MonoBehaviour
         }
         //末尾（要素：２）に参照するオブジェクトを生成
         var randomValues = Random.Range(0, randomRangeMaxValues);
-        pieceObjects[pieceObjectMaxValue - 1] = ObjectProcess.Instance.GeneratePieceObject(objectRefarence.nextPieces[randomValues], piecesPosition[pieceObjectMaxValue - 1].transform, GenerateParentObjectName.NextPieces.ToString());
+        pieceObjects[pieceObjectMaxValue - 1] = ObjectProcess.Instance.GeneratePieceObject(objectReference.nextPieces[randomValues], piecesPosition[pieceObjectMaxValue - 1].transform, GenerateParentObjectName.NextPieces.ToString());
         pieceObjects[pieceObjectMaxValue - 1].transform.position = piecesPosition[pieceObjectMaxValue - 1].transform.position;
         nextPieceIndex[pieceObjectMaxValue - 1] = randomValues;
 
