@@ -8,7 +8,7 @@ using Color = UnityEngine.Color;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-    public bool isSettingOpen { get; private set; } //取得用
+    //public bool isSettingOpen { get; private set; } //取得用
     private GameObject optionObject;
 
     private int totalPoint = 0; //総合得点
@@ -25,6 +25,10 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
     void Start()
+    {
+        
+    }
+    private void OnDisable()
     {
         
     }
@@ -45,8 +49,21 @@ public class UIManager : MonoBehaviour
         return totalPoint;
     }
 
-    public void IsSettingOen()
+    public bool IsSettingOen()
     {
-        isSettingOpen = !isSettingOpen;
+        //isSettingOpen = !isSettingOpen;
+
+        //return isSettingOpen;
+        return true;
+    }
+    //設定項目やスコア表示に使用
+    public void UIActivityAndHidden(GameObject canvasGroup, bool judge)
+    {
+        //アクティブかつ非表示
+        var scoreBoardCanvas = canvasGroup.GetComponent<CanvasGroup>();
+        var alphaValue = (judge) ? 1.0f : 0.0f;
+        scoreBoardCanvas.alpha = alphaValue;
+        scoreBoardCanvas.interactable = judge;
+        scoreBoardCanvas.blocksRaycasts = judge;
     }
 }

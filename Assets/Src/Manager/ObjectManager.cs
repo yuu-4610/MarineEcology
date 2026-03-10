@@ -29,6 +29,11 @@ public class ObjectManager : MonoBehaviour
     }
     // Start is called before the first frame update
     //オブジェクトのコンポーネント参照をする
+    //使用理由
+    //１．ヒエラルキー依存の減少
+    // →Find で探すことによる起きる問題が発生しない
+    //２．アタッチミスによる起きるエラーを解決
+    // →ScriptableObject に登録したオブジェクトを指定することでアタッチ作業で起こりえる問題を削減する
     public T Get<T>(string key, GameObject prefab) where T : Component
     {
         var objct = GetOrCreate(key, prefab);

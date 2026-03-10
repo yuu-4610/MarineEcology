@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class PlayerContoroller : MonoBehaviour
 {
     [SerializeField] PlayableObject playableObject;
-    [SerializeField] GameButton gameSceneButton;
+    //[SerializeField] GameSceneUI gameSceneButton;
+    public ObjectReference objectReference;
 
     private PlayerInput input; //入力処理クラス
     private float moveInput;
@@ -18,33 +20,30 @@ public class PlayerContoroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        InputFuctin();
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ObjectEventManager.Instance.TrantitionGameToResultEvent();
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            GameManager.Instance.SceneTrantition(SceneType.TitleScene);
-        }
+        InputPlayerControll();
+        InputGame();
     }
 
-    private void InputFuctin()
+    private void InputPlayerControll()
     {
+        if (!GameManager.Instance.isPlayerControll) return;
         //Pieceオブジェクトを落とす処理 → Spaceキーを押したら
         if (input.ObjectDropInput() == 1)
         {
-            playableObject.ObjectDrop();
+            playableObject.PieceObjectDrop();
         }
 
         //PlayableObjectを動かす処理 → マウスの操作で x 軸の変更
         moveInput = input.MousePositionValue();
         playableObject.ObjectMove(moveInput);
-
+    }
+    private void InputGame()
+    {
         //設定ボタンの表示切り替え → Left,RightShiftを押したら
-        if(input.OptionButton() == 1)
+        if (input.OptionButton() == 1)
         {
-            gameSceneButton.OptionButtonOnClick();
+            ObjectManager.Instance.Get<GameSceneUI>(ReferenceObjectName.Canvas_GameScene.ToString(), objectReference.gameSceneUI).OptionButtonDisplay();
+            //gameSceneButton.OptionButtonDisplay();
         }
     }
 }

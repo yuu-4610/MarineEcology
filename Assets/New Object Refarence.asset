@@ -33,3 +33,4 @@ MonoBehaviour:
   - {fileID: 6129585397015617379, guid: ba2dbceba8143f241ad88b6d65b18629, type: 3}
   - {fileID: 4645578392946535572, guid: 4b1f84c53e676754b9592bf6dcd56ee8, type: 3}
   player: {fileID: 875502014241020488, guid: 8285dda045a1cde48a2cbc69d89d99de, type: 3}
+  gameSceneUI: {fileID: 471897892848309295, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
