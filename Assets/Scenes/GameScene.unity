@@ -252,12 +252,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe52d05b32c58741b5c8248f56c1afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectRefarence: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
+  objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
   piecesPosition:
   - {fileID: 1124016347}
   - {fileID: 1335169106}
   - {fileID: 42172162}
-  playerObject: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playableObject: {fileID: 1345464408}
-  objectRefarence: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
+  objectReference: {fileID: 0}
 --- !u!4 &925145912
 Transform:
   m_ObjectHideFlags: 0
@@ -1532,6 +1531,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7267871484374571067, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
       propertyPath: scoreRunkingsText.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7986452959232510143, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
+      propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
