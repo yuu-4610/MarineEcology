@@ -21,9 +21,11 @@ public class Piece : MonoBehaviour
     private int my_serial; //生成番号格納用
     private void Awake()
     {
+        //識別用
         ++fruits_serial;
         my_serial = fruits_serial;
-        point = 5 * (int)fishNodeType + 1;
+        //ピースオブジェクトの各ポイント（点数）
+        point = 5 * ((int)fishNodeType + 1);
     }
 
     // Use this for initialization
@@ -39,14 +41,13 @@ public class Piece : MonoBehaviour
         // tag 名を指定
         this.gameObject.tag = TagName.Piece.ToString();
 
-        //イベント登録
-        ObjectEventManager.Instance.ObjectDrop += ObjectDrop;
         //駒合成時に下ベクトルに向ける
         ObjectEventManager.Instance.PieceSyntghesis += PieceSyntghesis;
     }
     private void OnEnable()
     {
-        
+        //イベント登録
+        ObjectEventManager.Instance.ObjectDrop += ObjectDrop;
     }
     private void OnDisable()
     {
@@ -92,12 +93,13 @@ public class Piece : MonoBehaviour
 
     private IEnumerator PieceSyntghesisCoroutine(Piece otherPiece)
     {
-        //当たったPieceオブジェクトのisDestroyedが false であれば処理
+        //当たったPieceオブジェクトが削除されていなければ（isDestroyed = false）処理
         if (!otherPiece.isDestroyed)
         {
             // my_serial の値が大きいオブジェクトに処理をさせる
             if (my_serial < otherPiece.my_serial)
             {
+                //第３のオブジェクトと衝突したときに処理を走らせないようにする
                 isDestroyed = true;
                 otherPiece.isDestroyed = true;
 
@@ -115,10 +117,12 @@ public class Piece : MonoBehaviour
                 }
                 UIManager.Instance.SetPoint(otherPiece.point);
             }
+            // my_serial の値の値が小さいほうの処理
             else
             {
                 processOrder = true;
             }
+            //削除可能（processOrder）になるまで繰り返す
             while (!processOrder) yield return null;
             Destroy(this.gameObject);
         }

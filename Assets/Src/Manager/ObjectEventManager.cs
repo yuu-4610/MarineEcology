@@ -20,6 +20,7 @@ public class ObjectEventManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
     void Start()
     {

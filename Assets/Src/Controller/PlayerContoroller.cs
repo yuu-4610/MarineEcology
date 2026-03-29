@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerContoroller : MonoBehaviour
 {
@@ -22,6 +23,14 @@ public class PlayerContoroller : MonoBehaviour
     {
         InputPlayerControll();
         InputGame();
+        //ê‚ëŒè¡Ç∑
+        if(SceneManager.GetActiveScene().name == SceneType.GameScene.ToString())
+        {
+            if (Input.GetKey(KeyCode.M))
+            {
+                ObjectEventManager.Instance.TrantitionGameToResultEvent();
+            }
+        }
     }
 
     private void InputPlayerControll()
@@ -42,7 +51,11 @@ public class PlayerContoroller : MonoBehaviour
         //ê›íËÉ{É^ÉìÇÃï\é¶êÿÇËë÷Ç¶ Å® Left,RightShiftÇâüÇµÇΩÇÁ
         if (input.OptionButton() == 1)
         {
-            ObjectManager.Instance.Get<GameSceneUI>(ReferenceObjectName.Canvas_GameScene.ToString(), objectReference.gameSceneUI).OptionButtonDisplay();
+            Debug.Log(objectReference.gameSceneUI);
+            if(SceneManager.GetActiveScene().name == SceneType.GameScene.ToString())
+            {
+                ObjectManager.Instance.Get<GameSceneUI>(ReferenceObjectName.Canvas_GameScene.ToString(), objectReference.gameSceneUI).OptionButtonDisplay();
+            }
             //gameSceneButton.OptionButtonDisplay();
         }
     }
