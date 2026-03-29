@@ -7,6 +7,7 @@ public class JudgeLine : MonoBehaviour
 {
     private BoxCollider2D boxCollider2D;
     private SpriteRenderer spriteRenderer; //画像情報
+    private GameObject firstObject;
     private float judgeCount = 0; //判定カウント
     private const float countRimit = 6.0f; //判定上限 5 → リミット　0.5 → 落下処理に対応するため
     private bool isGameFinish;
@@ -43,19 +44,26 @@ public class JudgeLine : MonoBehaviour
         // tag が Piece のオブジェクトに触れたら
         if (collision.gameObject.tag == TagName.Piece.ToString())
         {
-            //時間の測定
-            judgeCount += Time.deltaTime;
-            //テキストオブジェクトの処理を呼ぶ
-            ObjectManager.Instance.Get<GameSceneUI>(ReferenceObjectName.Canvas_GameScene.ToString(), objectReference.gameSceneUI).IsNearGameOver(judgeCount);
-
-            //測定時間が countRimit(６秒)以上であれば
-            if (judgeCount >= countRimit && !isGameFinish)
+            //一番最初に判定したオブジェクトを代入
+            //二つ目以降が当たっても処理を繰り返さないための対策
+            if(firstObject == null)
             {
-                //ゲーム終了
-                Debug.Log("ゲーム終了");
-                //ゲーム終了時のイベントを発火
-                ObjectEventManager.Instance.TrantitionGameToResultEvent();
-                isGameFinish = true;
+                firstObject = collision.gameObject;
+            }
+            if(firstObject == collision.gameObject)
+            {
+                //時間の測定
+                judgeCount += Time.deltaTime;
+                //テキストオブジェクトの処理を呼ぶ
+                ObjectManager.Instance.Get<GameSceneUI>(ReferenceObjectName.Canvas_GameScene.ToString(), objectReference.gameSceneUI).IsNearGameOver(judgeCount);
+
+                //測定時間が countRimit(６秒)以上であれば
+                if (judgeCount >= countRimit && !isGameFinish)
+                {
+                    //ゲーム終了時のイベントを発火
+                    ObjectEventManager.Instance.TrantitionGameToResultEvent();
+                    isGameFinish = true;
+                }
             }
         }
     }
@@ -65,6 +73,7 @@ public class JudgeLine : MonoBehaviour
         {
             //Pieceオブジェクトが離れたら減算
             triggerObjectCount--;
+            firstObject = null;
             //judgeLine に当たっているオブジェクトが一つでもあれば処理を行わない
             // →OnTriggerStay2D 時に以下処理が走ることを防ぐため
             if (triggerObjectCount <= 0)

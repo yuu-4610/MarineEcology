@@ -156,7 +156,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Gemini_Generated_Image_7ahc3z7ahc3z7ahc_0: 3140346547571678340
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

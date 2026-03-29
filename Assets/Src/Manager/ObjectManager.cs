@@ -16,6 +16,7 @@ public class ObjectManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
     public GameObject GetOrCreate(string key, GameObject prefab)
     {
