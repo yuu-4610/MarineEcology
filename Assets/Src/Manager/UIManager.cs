@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
     void Start()
     {

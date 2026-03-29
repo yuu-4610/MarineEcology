@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private GameData gameData; //スコア書き込み用変数
     private GameData loadData; //スコア読み取り用変数
     private const int listLength = 3; //Jsonファイルの保存数（処理回数に使用）
-    private bool isTitleSceneProcess = false; //タイトルシーン遷移時の処理制限
+    private bool isTrantitionSceneProcess = false; //シーン遷移時に一度だけ行う処理のフラグ
 
     public bool testFlg; //テスト用 → Pieceオブジェクトの衝突時の処理を OFF にする
 
@@ -33,20 +33,37 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+        //Titleシーン（一番最初のシーン）で配置したオブジェクトを残す
+        DontDestroyOnLoad(this.gameObject);
     }
     private void OnEnable()
     {
-        
+        //イベントの登録
+        //シングルトンオブジェクトの生成が順不同であるため、生成を待ちイベント登録する
+        StartCoroutine(EventRegistration());
     }
     private void OnDisable()
     {
         ObjectEventManager.Instance.TrantitionGameToResult -= GameFinish;
+        Debug.Log("ここです");
     }
     void Start()
     {
-        ObjectEventManager.Instance.TrantitionGameToResult += GameFinish;
-        sceneNumber = (int)SceneType.TitleScene;
-        SceneTrantition(SceneType.TitleScene);
+        //万が一TitleSceneから始まらなかった場合の処理
+        var startScene = SceneManager.GetActiveScene().name;
+        if(startScene != SceneType.TitleScene.ToString())
+        {
+            SceneTrantition(SceneType.TitleScene);
+            sceneNumber = (int)SceneType.TitleScene;
+        }
+        //正常に進行したときの処理
+        else
+        {
+            //シーンごとにある処理を有効にする
+            isTrantitionSceneProcess = true;
+            sceneNumber = (int)SceneType.TitleScene;
+        }
+
     }
 
     // Update is called once per frame
@@ -54,41 +71,44 @@ public class GameManager : MonoBehaviour
     {
         switch (sceneNumber)
         {
-            case 0: //タイトルシーン
-                GameScoreInitialize();
+            case (int)SceneType.TitleScene: //０：タイトルシーン
+                if (isTrantitionSceneProcess)
+                {
+                    //マイスコアランキングの読み取り
+                    GameScoreInitialize();
 
-                isTitleSceneProcess = false;
+                    //処理の無効化（処理はシーン遷移時に１度のみ）
+                    isTrantitionSceneProcess = false;
+                }
+
                 break;
-            case 1: //ゲームシーン
-                //必ず消す
-                isPlayerControll = true;
-                break;
-            case 2:
+            case (int)SceneType.GameScene: //１：ゲームシーン
+                if (isTrantitionSceneProcess)
+                {
+                    //マイスコアランキングの読み取り
+                    GameScoreInitialize();
+                    //プレイヤーの操作を受け付ける
+                    isPlayerControll = true;
+
+                    //処理の無効化（処理はシーン遷移時に１度のみ）
+                    isTrantitionSceneProcess = false;
+                }
                 break;
         }
     }
     public void SceneTrantition(SceneType sceneType)
     {
-        if (sceneNumber != (int)sceneType)
-        {
-            SceneManager.LoadScene(sceneType.ToString());
-            sceneNumber = (int)sceneType;
-        } 
+        //シーン遷移・各シーン開始時の処理を有効化
+        SceneManager.LoadScene(sceneType.ToString());
+        isTrantitionSceneProcess = true;
+        sceneNumber = (int)sceneType;
 
-        if(sceneNumber == (int)SceneType.TitleScene)
-        {
-            isTitleSceneProcess = true;
-        }
-        if(sceneNumber != (int)SceneType.GameScene)
-        {
-            isPlayerControll = true;
-        }
+        //ゲームシーン以外に遷移する場合
+        if (sceneNumber != (int)SceneType.GameScene) isPlayerControll = false;
     }
     //スコアランキングの取得（タイトル画面で実行）
     public void GameScoreInitialize()
     {
-        if (!isTitleSceneProcess) return;
-
         gameData = new GameData();
         scores = new int[listLength + 1];
 
@@ -141,5 +161,14 @@ public class GameManager : MonoBehaviour
             gameData.myScores.Add(myScore);
         }
         SaveSystem.Save(gameData);
+    }
+    //ObjectEventManagerが生成されるまで待つ
+    private IEnumerator EventRegistration()
+    {
+        while(ObjectEventManager.Instance == null)
+        {
+            yield return null;
+        }
+        ObjectEventManager.Instance.TrantitionGameToResult += GameFinish;
     }
 }
