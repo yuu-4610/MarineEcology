@@ -8,14 +8,15 @@ using UnityEngine.UI;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
-    public AudioSource bgmSource;
-    [SerializeField] AudioMixer audioMixer;
-    [SerializeField] AudioMixerGroup seMixerGroup;
-    [SerializeField] Slider bgmChangeSlider;
-    [SerializeField] Slider seChangeSlider;
+    [SerializeField] AudioSource bgmSource; //基本１つのみ再生するので、柔軟性より管理しやすさをとるため、BGMを流す AudioSource はアタッチする
+    [SerializeField] AudioMixer audioMixer; //オーディオミキサー
+    [SerializeField] AudioMixerGroup bgmMixerGroup; //BGM音量管理グループ名
+    [SerializeField] AudioMixerGroup seMixerGroup; //SE音量管理グループ名
+    [SerializeField] Slider bgmChangeSlider; //BGMの音量調整用スライダー
+    [SerializeField] Slider seChangeSlider; //SEの音量調整用スライダー
 
-    private Dictionary<string, AudioClip> bgmDic, seDic; //Resourcesフォルダから読み込む用
-    private List<AudioSource> seSourceArray;
+    private Dictionary<string, AudioClip> bgmDic, seDic; //
+    private List<AudioSource> seSourceArray; //SE用 AudioSource のリスト
     private const int seSourceNumber = 10;
     private int sePlayCount = 0;
     private void Awake()
@@ -35,36 +36,61 @@ public class AudioManager : MonoBehaviour
     {
         sePlayCount = 0;
         //BGM用AudioSourceに初期BGMとループ処理
+        bgmSource.outputAudioMixerGroup = bgmMixerGroup;
+        bgmSource.loop = true;
+        //PlayBGM();
 
-        //SE用AudioSourceを複数個作成
+        //SE用AudioSourceを 10 個このオブジェクトに追加する
         for (int i = 0; i < seSourceNumber; i++)
         {
-            this.gameObject.AddComponent<AudioSource>();
+            var addObject =  this.gameObject.AddComponent<AudioSource>();
+            //新たに追加したコンポーネントに ミキサーのグループ"SE" を割り当てる
+            addObject.outputAudioMixerGroup = seMixerGroup;
         }
+        //ここでは全ての AudioSource を取得
         AudioSource[] audioSourceArray = GetComponents<AudioSource>();
         seSourceArray = new List<AudioSource>();
 
-        for(int i = 0; i < audioSourceArray.Length; i++)
+        for (int i = 0; i < audioSourceArray.Length; i++)
         {
             audioSourceArray[i].playOnAwake = false;
 
-            seSourceArray.Add(audioSourceArray[i]);
-            seSourceArray[i].outputAudioMixerGroup = seMixerGroup;
+            if (audioSourceArray[i].outputAudioMixerGroup == seMixerGroup){
+                seSourceArray.Add(audioSourceArray[i]);
+            }
         }
 
         //スライダーに音量値を反映
-        audioMixer.GetFloat("BGM", out float bgmValue);
+        audioMixer.GetFloat(AudioMixerGroupName.BGM.ToString(), out float bgmValue);
         bgmChangeSlider.value = bgmValue;
 
-        audioMixer.GetFloat("SE", out float seValue);
+        audioMixer.GetFloat(AudioMixerGroupName.SE.ToString(), out float seValue);
         seChangeSlider.value = seValue;
+
+        //登録リストの作成
+        bgmDic = new Dictionary<string, AudioClip>();
+        seDic = new Dictionary<string, AudioClip>();
+
+        //Resourcesフォルダに格納しているBGM, SEの音源素材をリストに追加
+        object[] bgmList = Resources.LoadAll(PathHelper.ToName(ResourcePath.BGM));
+        object[] seList = Resources.LoadAll(PathHelper.ToName(ResourcePath.SE));
+
+        //上記で作成したリストを登録リスト(Dictionary)に登録
+        foreach (AudioClip bgm in bgmList)
+        {
+            bgmDic[bgm.name] = bgm;
+        }
+        foreach (AudioClip se in seList)
+        {
+            seDic[se.name] = se;
+        }
     }
     //スライダーにアタッチ
-    public void SetBGM(float volume)
+    public void SetBGMVolume(float volume)
     {
         audioMixer.SetFloat("BGM", volume);
     }
-    public void SetSE(float volume)
+    public void SetSEVolume(float volume)
     {
         audioMixer.SetFloat("SE", volume);
     }
@@ -74,38 +100,27 @@ public class AudioManager : MonoBehaviour
     {
 
     }
-    public void PlaySE(AudioClip audioClip)
+    public void PlaySE(string audioClip)
     {
-        var sourceNumber = 0;
-        for (int i = 0; i < seSourceNumber;i++)
+        //指定したクリップ名がない場合は再生せず終了する
+        if (!seDic.ContainsKey(audioClip)) return;
+
+        foreach (AudioSource seSource in seSourceArray)
         {
-            if (!seSourceArray[i].isPlaying)
+            //作成した AudioSource から再生していないものを探す
+            //空いている AudioSource があれば再生
+            if (!seSource.isPlaying)
             {
-                sourceNumber = i;
-                sePlayCount++;
-                break;
+                seSource.PlayOneShot(seDic[audioClip] as AudioClip);
+                return;
             }
-            //SE再生枠が上限に達した状態でSEを鳴らしたときの処理
-            //１．待機させて処理（非同期
-            //２．何もしない
-            //else if(sePlayCount == seSourceNumber)
-            //{
-            //    async Task WaitCount()
-            //    {
-            //        while(sePlayCount >= 10)
-            //        {
-            //            await Task.Yield();
-            //        }
-            //        sourceNumber = i;
-            //        sePlayCount++;
-            //    }
-            //}
         }
-        seSourceArray[sourceNumber].PlayOneShot(audioClip);
-        sePlayCount--;
     }
     public void PlayBGM(AudioClip audioClip)
     {
-
+        //指定したクリップ名がない場合は再生せず終了する
+        if (!bgmDic.ContainsKey(audioClip.name)) return;
+        bgmSource.clip = audioClip;
+        bgmSource.Play();
     }
 }

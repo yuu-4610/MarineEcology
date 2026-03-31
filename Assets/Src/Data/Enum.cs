@@ -32,11 +32,21 @@ public enum GenerateParentObjectName
 
 public enum TagName
 {
-    Piece, //ピース
+    Piece, //ピースオブジェクトに付与
 }
 
 public enum ReferenceObjectName
 {
     Canvas_GameScene, //ゲームシーンのキャンバス
     PlayableObject, //プレイアブルオブジェクト
+}
+public enum ResourcePath
+{
+    BGM, //BGMが置いてあるパス
+    SE, //SEが置いてあるパス
+}
+public enum AudioMixerGroupName
+{
+    BGM,
+    SE,
 }
