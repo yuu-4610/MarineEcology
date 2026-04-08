@@ -10,7 +10,8 @@ public class TitleSceneUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI[] textsMeshPro; //マイスコアを反映させるテキスト
     [SerializeField] GameObject scoreBoard; //スコアボード
     [SerializeField] GameObject playGuide; //遊び方ボード
-    [SerializeField] GameObject[] playGuidePage; //遊び方説明ボード
+    [SerializeField] GameObject audioSettingBoard;
+    [SerializeField] GameObject[] playGuidePage; //遊び方説明ボード各ページ
     [SerializeField] GameObject[] playGuideChangePageButton; //ページ変更のボタン ０．次へ　１．前へ　２．閉じる
 
     private int pageCount;
@@ -23,6 +24,8 @@ public class TitleSceneUI : MonoBehaviour
         //遊び方説明ボードを非表示に
         UIManager.Instance.UIActivityAndHidden(playGuide, false);
 
+        UIManager.Instance.UIActivityAndHidden(audioSettingBoard, false);
+
 
         pageCount = 0;
     }
@@ -30,7 +33,7 @@ public class TitleSceneUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pageCount);
+        
     }
     public void TrantitionTitleToGame()
     {
@@ -47,6 +50,8 @@ public class TitleSceneUI : MonoBehaviour
         }
         //スコアボードを表示
         UIManager.Instance.UIActivityAndHidden(scoreBoard, true);
+        //ボタンクリック時の効果音
+        AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.buttonClick));
     }
     //マイスコア非表示
     public void MyScoreHidden()
@@ -57,6 +62,7 @@ public class TitleSceneUI : MonoBehaviour
     public void PlayGuideDisplay()
     {
         UIManager.Instance.UIActivityAndHidden(playGuide, true);
+        AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.buttonClick));
     }
     //閉じるボタンを押したときの処理
     //遊び方説明表示非表示
@@ -69,12 +75,13 @@ public class TitleSceneUI : MonoBehaviour
     public void PlayGuideNextPage()
     {
         pageCount++;
+        //ページをめくる効果音
+        AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.turnThePage));
         //対象ページを表示し、前ページを非表示に
         UIManager.Instance.UIActivityAndHidden(playGuidePage[pageCount], true);
         UIManager.Instance.UIActivityAndHidden(playGuidePage[pageCount - 1], false);
         if (pageCount == playGuidePage.Length - 1)
         {
-            Debug.Log("その１");
             //次へボタンを非表示に
             UIManager.Instance.UIActivityAndHidden(playGuideChangePageButton[0], false);
             //閉じるボタンを表示
@@ -82,7 +89,6 @@ public class TitleSceneUI : MonoBehaviour
         }
         else if(pageCount != 0)
         {
-            Debug.Log("その２");
             //前へボタンを表示
             UIManager.Instance.UIActivityAndHidden(playGuideChangePageButton[1], true);
         }
@@ -90,12 +96,13 @@ public class TitleSceneUI : MonoBehaviour
     public void PlayGuideBackPage()
     {
         pageCount--;
+        //ページをめくる効果音
+        AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.turnThePage));
         //対象ページを表示し、前ページを非表示に
         UIManager.Instance.UIActivityAndHidden(playGuidePage[pageCount], true);
         UIManager.Instance.UIActivityAndHidden(playGuidePage[pageCount + 1], false);
         if (pageCount != playGuidePage.Length - 1)
         {
-            Debug.Log("その３");
             //閉じるボタンを非表示に
             UIManager.Instance.UIActivityAndHidden(playGuideChangePageButton[2], false);
             //次へボタンを表示
@@ -119,5 +126,17 @@ public class TitleSceneUI : MonoBehaviour
         UIManager.Instance.UIActivityAndHidden(playGuidePage[0], true);
         UIManager.Instance.UIActivityAndHidden(playGuidePage[1], false);
         UIManager.Instance.UIActivityAndHidden(playGuidePage[2], false);
+    }
+
+    public void AudioSettingBoardDisplay()
+    {
+        UIManager.Instance.UIActivityAndHidden(audioSettingBoard, true);
+
+        AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.buttonClick));
+    }
+
+    public void AUdioSettingBoardHidden()
+    {
+        UIManager.Instance.UIActivityAndHidden(audioSettingBoard, false);
     }
 }

@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] Slider bgmChangeSlider; //BGMの音量調整用スライダー
     [SerializeField] Slider seChangeSlider; //SEの音量調整用スライダー
 
-    private Dictionary<string, AudioClip> bgmDic, seDic; //
+    private Dictionary<string, AudioClip> bgmDictionary, seDictionary; //
     private List<AudioSource> seSourceArray; //SE用 AudioSource のリスト
     private const int seSourceNumber = 10;
     private int sePlayCount = 0;
@@ -63,64 +63,66 @@ public class AudioManager : MonoBehaviour
         //スライダーに音量値を反映
         audioMixer.GetFloat(AudioMixerGroupName.BGM.ToString(), out float bgmValue);
         bgmChangeSlider.value = bgmValue;
-
         audioMixer.GetFloat(AudioMixerGroupName.SE.ToString(), out float seValue);
         seChangeSlider.value = seValue;
 
         //登録リストの作成
-        bgmDic = new Dictionary<string, AudioClip>();
-        seDic = new Dictionary<string, AudioClip>();
+        bgmDictionary = new Dictionary<string, AudioClip>();
+        seDictionary = new Dictionary<string, AudioClip>();
 
         //Resourcesフォルダに格納しているBGM, SEの音源素材をリストに追加
         object[] bgmList = Resources.LoadAll(PathHelper.ToName(ResourcePath.BGM));
         object[] seList = Resources.LoadAll(PathHelper.ToName(ResourcePath.SE));
+        Debug.Log(Resources.LoadAll(PathHelper.ToName(ResourcePath.BGM)));
 
         //上記で作成したリストを登録リスト(Dictionary)に登録
         foreach (AudioClip bgm in bgmList)
         {
-            bgmDic[bgm.name] = bgm;
+            bgmDictionary[bgm.name] = bgm;
         }
         foreach (AudioClip se in seList)
         {
-            seDic[se.name] = se;
+            seDictionary[se.name] = se;
         }
     }
     //スライダーにアタッチ
     public void SetBGMVolume(float volume)
     {
-        audioMixer.SetFloat("BGM", volume);
+        //audioMixer.SetFloat(AudioMixerGroupName.BGM.ToString(), Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat(AudioMixerGroupName.BGM.ToString(), volume);
     }
     public void SetSEVolume(float volume)
     {
-        audioMixer.SetFloat("SE", volume);
+        //audioMixer.SetFloat(AudioMixerGroupName.SE.ToString(), Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat(AudioMixerGroupName.SE.ToString(), volume);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
-    public void PlaySE(string audioClip)
+    public void PlaySE(string audioClipName)
     {
         //指定したクリップ名がない場合は再生せず終了する
-        if (!seDic.ContainsKey(audioClip)) return;
+        if (!seDictionary.ContainsKey(audioClipName)) return;
 
         foreach (AudioSource seSource in seSourceArray)
         {
             //作成した AudioSource から再生していないものを探す
-            //空いている AudioSource があれば再生
+            //再生されていない AudioSource があればセットして再生
             if (!seSource.isPlaying)
             {
-                seSource.PlayOneShot(seDic[audioClip] as AudioClip);
+                seSource.PlayOneShot(seDictionary[audioClipName]);
                 return;
             }
         }
     }
-    public void PlayBGM(AudioClip audioClip)
+    public void PlayBGM(string bgmFileName)
     {
         //指定したクリップ名がない場合は再生せず終了する
-        if (!bgmDic.ContainsKey(audioClip.name)) return;
-        bgmSource.clip = audioClip;
+        if (!bgmDictionary.ContainsKey(bgmFileName)) return;
+        bgmSource.clip = bgmDictionary[bgmFileName];
         bgmSource.Play();
     }
 }

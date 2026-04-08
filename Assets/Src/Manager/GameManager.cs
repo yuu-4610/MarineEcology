@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using TMPro;
-using Unity.Android.Gradle.Manifest;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -59,6 +58,7 @@ public class GameManager : MonoBehaviour
         //正常に進行したときの処理
         else
         {
+            Debug.Log("れれ");
             //シーンごとにある処理を有効にする
             isTrantitionSceneProcess = true;
             sceneNumber = (int)SceneType.TitleScene;
@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
                 {
                     //マイスコアランキングの読み取り
                     GameScoreInitialize();
+                    AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.kaityusekai));
 
                     //処理の無効化（処理はシーン遷移時に１度のみ）
                     isTrantitionSceneProcess = false;
@@ -87,14 +88,20 @@ public class GameManager : MonoBehaviour
                 {
                     //マイスコアランキングの読み取り
                     GameScoreInitialize();
+                    
+                    AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.tokonatunoumi));
+
                     //プレイヤーの操作を受け付ける
                     isPlayerControll = true;
+                    Debug.Log("GameSceneStart");
 
                     //処理の無効化（処理はシーン遷移時に１度のみ）
                     isTrantitionSceneProcess = false;
                 }
                 break;
         }
+        Debug.Log($"isPlayerControll{isPlayerControll}");
+        Debug.Log($"ObjectEventManager.Instance.TrantitionGameToResult");
     }
     public void SceneTrantition(SceneType sceneType)
     {
@@ -104,7 +111,10 @@ public class GameManager : MonoBehaviour
         sceneNumber = (int)sceneType;
 
         //ゲームシーン以外に遷移する場合
-        if (sceneNumber != (int)SceneType.GameScene) isPlayerControll = false;
+        if (sceneNumber != (int)SceneType.GameScene)
+        {
+            isPlayerControll = false;
+        }
     }
     //スコアランキングの取得（タイトル画面で実行）
     public void GameScoreInitialize()
@@ -138,6 +148,7 @@ public class GameManager : MonoBehaviour
     //GameScene 終了時の処理
     private void GameFinish()
     {
+        Debug.Log("ずっと？");
         //PlayableObject の操作を不可能にする
         isPlayerControll = false;
         //マイスコアを更新
@@ -169,6 +180,7 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+        ObjectEventManager.Instance.TrantitionGameToResult -= GameFinish;
         ObjectEventManager.Instance.TrantitionGameToResult += GameFinish;
     }
 }

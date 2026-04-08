@@ -50,9 +50,9 @@ AudioMixerController:
   m_UpdateMode: 0
   m_ExposedParameters:
   - guid: f8b77850937ea2443ac3e139b6620962
-    name: MyExposedParam
+    name: BGM
   - guid: 5351e133fb1a8be45bbb483bc0107451
-    name: MyExposedParam 1
+    name: SE
   m_AudioMixerGroupViews:
   - guids:
     - 3424c479a29943042b6d10f5bdc7dc5f
@@ -105,7 +105,9 @@ AudioMixerSnapshotController:
   m_Name: Snapshot
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 16afa83b19099a740a1b28cbe3d3eee7
-  m_FloatValues: {}
+  m_FloatValues:
+    f8b77850937ea2443ac3e139b6620962: 0.27000841
+    9bf7fb7a0e76a51499d0aff2bf61994b: 0
   m_TransitionOverrides: {}
 --- !u!244 &9018274351367102394
 AudioMixerEffectController:

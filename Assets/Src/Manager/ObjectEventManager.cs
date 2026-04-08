@@ -48,6 +48,8 @@ public class ObjectEventManager : MonoBehaviour
     public void TrantitionGameToResultEvent()
     {
         TrantitionGameToResult?.Invoke();
+        int count = TrantitionGameToResult?.GetInvocationList().Length ?? 0;
+        Debug.Log($"登録数: {count}");
     }
     public int GetObjectGenerateListenerCount()
     {

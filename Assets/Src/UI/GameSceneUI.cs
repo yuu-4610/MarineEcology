@@ -99,8 +99,10 @@ public class GameSceneUI : MonoBehaviour
     {
         //再読み込み
         var currentScene = SceneManager.GetActiveScene().name;
+        Debug.Log($"currentScene：{currentScene}");
         if (currentScene == SceneType.GameScene.ToString())
         {
+            Debug.Log("成功");
             SceneManager.LoadScene(currentScene);
         }
     }
@@ -109,7 +111,8 @@ public class GameSceneUI : MonoBehaviour
     {
         //ゲーム終了時の処理、「Finish」と黒い幕を降ろす
         UIManager.Instance.UIActivityAndHidden(gameFinishedMask, true);
-        
+        AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.whistle));
+
         StartCoroutine(GameFinishedText());
     }
     //ゲームオーバーカウント用のテキストに反映
@@ -147,14 +150,6 @@ public class GameSceneUI : MonoBehaviour
             finishedTextObject.color = new Color(finishedTextObject.color.r, finishedTextObject.color.g, finishedTextObject.color.b,  -alphaValueChangeTime / 2);
             finishedText = finishedTextObject.gameObject;
         }
-        //「Finish」を左へイージング
-        //while(finishedText.transform.position.x >= -300)
-        //{
-        //    finishedText.transform.position = Vector3.Lerp(finishedText.transform.position, new Vector3(finishedText.transform.position.x - 5, finishedText.transform.position.y, 0), 0.1f);
-        //    Debug.Log(finishedText.transform.position);
-
-        //    yield return null;
-        //}
 
         UIManager.Instance.UIActivityAndHidden(resultScoreOrderText, true);
         resultScoreText.text = UIManager.Instance.GetPoint().ToString();

@@ -9,8 +9,8 @@ public static class PathHelper
     {
         switch (pathName)
         {
-            case ResourcePath.BGM: return "Audio/BGM";
-            case ResourcePath.SE: return "Audio/BGM";
+            case ResourcePath.BGM: return $"Audio/{ResourcePath.BGM.ToString()}";
+            case ResourcePath.SE: return $"Audio/{ResourcePath.SE.ToString()}";
             default: return "";
         }
     }

@@ -50,3 +50,13 @@ public enum AudioMixerGroupName
     BGM,
     SE,
 }
+public enum AudioFileName
+{
+    kaityusekai, //BGM　海中世界_backGround
+    tokonatunoumi, //BGM　常夏の海_backGround
+    onoma, //SE　Onoma
+    whistle, //SE　警官のホイッスル
+    moveCursor,
+    buttonClick, //ボタンを押したときの音
+    turnThePage, //遊び方ボードをめくるときの音
+}
