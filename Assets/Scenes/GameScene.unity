@@ -1425,7 +1425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6002593922183697723, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
       propertyPath: m_Alpha
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7267871484374571067, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
       propertyPath: optiongBoard
@@ -1458,6 +1458,14 @@ PrefabInstance:
     - target: {fileID: 8285343953558086093, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
       propertyPath: m_Name
       value: OptionBoarder
+      objectReference: {fileID: 0}
+    - target: {fileID: 8723144367879319102, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
+      propertyPath: m_fontColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8723144367879319102, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4245225449
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

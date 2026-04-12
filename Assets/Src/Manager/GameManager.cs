@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         ObjectEventManager.Instance.TrantitionGameToResult -= GameFinish;
-        Debug.Log("ここです");
     }
     void Start()
     {
@@ -58,7 +57,6 @@ public class GameManager : MonoBehaviour
         //正常に進行したときの処理
         else
         {
-            Debug.Log("れれ");
             //シーンごとにある処理を有効にする
             isTrantitionSceneProcess = true;
             sceneNumber = (int)SceneType.TitleScene;
@@ -69,6 +67,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log($"isPlayerControll{isPlayerControll}");
+        Debug.Log($"isTrantitionSceneProcess{isTrantitionSceneProcess}");
         switch (sceneNumber)
         {
             case (int)SceneType.TitleScene: //０：タイトルシーン
@@ -91,30 +91,30 @@ public class GameManager : MonoBehaviour
                     
                     AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.tokonatunoumi));
 
+                    //通ってはいる
                     //プレイヤーの操作を受け付ける
                     isPlayerControll = true;
-                    Debug.Log("GameSceneStart");
 
                     //処理の無効化（処理はシーン遷移時に１度のみ）
                     isTrantitionSceneProcess = false;
                 }
                 break;
         }
-        Debug.Log($"isPlayerControll{isPlayerControll}");
-        Debug.Log($"ObjectEventManager.Instance.TrantitionGameToResult");
     }
     public void SceneTrantition(SceneType sceneType)
     {
-        //シーン遷移・各シーン開始時の処理を有効化
-        SceneManager.LoadScene(sceneType.ToString());
-        isTrantitionSceneProcess = true;
         sceneNumber = (int)sceneType;
+        isTrantitionSceneProcess = true;
+        
 
         //ゲームシーン以外に遷移する場合
         if (sceneNumber != (int)SceneType.GameScene)
         {
             isPlayerControll = false;
         }
+
+        //シーン遷移・各シーン開始時の処理を有効化
+        SceneManager.LoadScene(sceneType.ToString());
     }
     //スコアランキングの取得（タイトル画面で実行）
     public void GameScoreInitialize()
@@ -148,7 +148,6 @@ public class GameManager : MonoBehaviour
     //GameScene 終了時の処理
     private void GameFinish()
     {
-        Debug.Log("ずっと？");
         //PlayableObject の操作を不可能にする
         isPlayerControll = false;
         //マイスコアを更新

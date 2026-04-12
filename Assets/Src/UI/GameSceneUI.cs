@@ -21,11 +21,15 @@ public class GameSceneUI : MonoBehaviour
     private TextMeshProUGUI resultScoreText;
     private int zero = 0;
     private float judgementTimeRimit = 5;
+    private float textAlphaValueCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        ObjectManager.Instance.Register("Canvas_GameScene", this.gameObject);
+        //参照可能オブジェクトとして登録
+        ObjectManager.Instance.Register(ReferenceObjectName.Canvas_GameScene.ToString(), this.gameObject);
+
+        //コンポーネントの取得
         gameOrverCountText = countText.GetComponent<TextMeshProUGUI>();
         resultScoreText = resultScoreOrderText.GetComponent<TextMeshProUGUI>();
 
@@ -42,6 +46,7 @@ public class GameSceneUI : MonoBehaviour
         //テキストを初期化
         resultScoreText.text = zero.ToString();
         pointText.text = zero.ToString();
+        textAlphaValueCount = 0;
 
         StartCoroutine(EventRegistration());
     }
@@ -99,11 +104,9 @@ public class GameSceneUI : MonoBehaviour
     {
         //再読み込み
         var currentScene = SceneManager.GetActiveScene().name;
-        Debug.Log($"currentScene：{currentScene}");
         if (currentScene == SceneType.GameScene.ToString())
         {
-            Debug.Log("成功");
-            SceneManager.LoadScene(currentScene);
+            GameManager.Instance.SceneTrantition(SceneType.GameScene);
         }
     }
 
@@ -139,16 +142,27 @@ public class GameSceneUI : MonoBehaviour
             UIManager.Instance.UIActivityAndHidden(countText, false);
         }
     }
+    //ゲーム終了後の「GameFinish」と得点を表示するテキストの処理
     private IEnumerator GameFinishedText()
     {
         yield return new WaitForSeconds(1f);
-        var finishedTextObject = finishedText.GetComponent<TextMeshProUGUI>();
-        var alphaValueChangeTime = Time.deltaTime;
+        var targetText = finishedText.GetComponent<TextMeshProUGUI>();
+        var color = targetText.color;
 
-        while(finishedTextObject.color.a > 0)
+        //テキストの alpha値を０に近づけていく ー＞ 消えたらスコアを表示
+        while(color.a > 0)
         {
-            finishedTextObject.color = new Color(finishedTextObject.color.r, finishedTextObject.color.g, finishedTextObject.color.b,  -alphaValueChangeTime / 2);
-            finishedText = finishedTextObject.gameObject;
+            textAlphaValueCount = Time.deltaTime * 2;
+            color.a -= textAlphaValueCount;
+            if(color.a < 0)
+            {
+                color.a = 0;
+            }
+
+            //Debug.Log($"finishedTextObjectColor{finishedTextObjectColor.a}");
+            targetText.color = color;
+
+            yield return null;
         }
 
         UIManager.Instance.UIActivityAndHidden(resultScoreOrderText, true);
