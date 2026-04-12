@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using TMPro;
-using Unity.Android.Gradle.Manifest;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,7 +44,6 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         ObjectEventManager.Instance.TrantitionGameToResult -= GameFinish;
-        Debug.Log("ここです");
     }
     void Start()
     {
@@ -69,6 +67,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log($"isPlayerControll{isPlayerControll}");
+        Debug.Log($"isTrantitionSceneProcess{isTrantitionSceneProcess}");
         switch (sceneNumber)
         {
             case (int)SceneType.TitleScene: //０：タイトルシーン
@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
                 {
                     //マイスコアランキングの読み取り
                     GameScoreInitialize();
+                    AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.kaityusekai));
 
                     //処理の無効化（処理はシーン遷移時に１度のみ）
                     isTrantitionSceneProcess = false;
@@ -87,6 +88,10 @@ public class GameManager : MonoBehaviour
                 {
                     //マイスコアランキングの読み取り
                     GameScoreInitialize();
+                    
+                    AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.tokonatunoumi));
+
+                    //通ってはいる
                     //プレイヤーの操作を受け付ける
                     isPlayerControll = true;
 
@@ -98,13 +103,18 @@ public class GameManager : MonoBehaviour
     }
     public void SceneTrantition(SceneType sceneType)
     {
-        //シーン遷移・各シーン開始時の処理を有効化
-        SceneManager.LoadScene(sceneType.ToString());
-        isTrantitionSceneProcess = true;
         sceneNumber = (int)sceneType;
+        isTrantitionSceneProcess = true;
+        
 
         //ゲームシーン以外に遷移する場合
-        if (sceneNumber != (int)SceneType.GameScene) isPlayerControll = false;
+        if (sceneNumber != (int)SceneType.GameScene)
+        {
+            isPlayerControll = false;
+        }
+
+        //シーン遷移・各シーン開始時の処理を有効化
+        SceneManager.LoadScene(sceneType.ToString());
     }
     //スコアランキングの取得（タイトル画面で実行）
     public void GameScoreInitialize()
@@ -169,6 +179,7 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+        ObjectEventManager.Instance.TrantitionGameToResult -= GameFinish;
         ObjectEventManager.Instance.TrantitionGameToResult += GameFinish;
     }
 }

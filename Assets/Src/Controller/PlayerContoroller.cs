@@ -26,7 +26,7 @@ public class PlayerContoroller : MonoBehaviour
         //ê‚ëŒè¡Ç∑
         if(SceneManager.GetActiveScene().name == SceneType.GameScene.ToString())
         {
-            if (Input.GetKey(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.M))
             {
                 ObjectEventManager.Instance.TrantitionGameToResultEvent();
             }

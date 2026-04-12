@@ -102,6 +102,8 @@ public class Piece : MonoBehaviour
                 //第３のオブジェクトと衝突したときに処理を走らせないようにする
                 isDestroyed = true;
                 otherPiece.isDestroyed = true;
+                //効果音を出す
+                AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.onoma));
 
                 //次のオブジェクトがあれば実行
                 if (objectReference.pieceObjects.Length > (int)fishNodeType + 1)

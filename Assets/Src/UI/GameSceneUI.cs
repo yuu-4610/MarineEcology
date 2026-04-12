@@ -21,11 +21,15 @@ public class GameSceneUI : MonoBehaviour
     private TextMeshProUGUI resultScoreText;
     private int zero = 0;
     private float judgementTimeRimit = 5;
+    private float textAlphaValueCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        ObjectManager.Instance.Register("Canvas_GameScene", this.gameObject);
+        //参照可能オブジェクトとして登録
+        ObjectManager.Instance.Register(ReferenceObjectName.Canvas_GameScene.ToString(), this.gameObject);
+
+        //コンポーネントの取得
         gameOrverCountText = countText.GetComponent<TextMeshProUGUI>();
         resultScoreText = resultScoreOrderText.GetComponent<TextMeshProUGUI>();
 
@@ -42,6 +46,7 @@ public class GameSceneUI : MonoBehaviour
         //テキストを初期化
         resultScoreText.text = zero.ToString();
         pointText.text = zero.ToString();
+        textAlphaValueCount = 0;
 
         StartCoroutine(EventRegistration());
     }
@@ -101,7 +106,7 @@ public class GameSceneUI : MonoBehaviour
         var currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == SceneType.GameScene.ToString())
         {
-            SceneManager.LoadScene(currentScene);
+            GameManager.Instance.SceneTrantition(SceneType.GameScene);
         }
     }
 
@@ -109,7 +114,8 @@ public class GameSceneUI : MonoBehaviour
     {
         //ゲーム終了時の処理、「Finish」と黒い幕を降ろす
         UIManager.Instance.UIActivityAndHidden(gameFinishedMask, true);
-        
+        AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.whistle));
+
         StartCoroutine(GameFinishedText());
     }
     //ゲームオーバーカウント用のテキストに反映
@@ -136,25 +142,28 @@ public class GameSceneUI : MonoBehaviour
             UIManager.Instance.UIActivityAndHidden(countText, false);
         }
     }
+    //ゲーム終了後の「GameFinish」と得点を表示するテキストの処理
     private IEnumerator GameFinishedText()
     {
         yield return new WaitForSeconds(1f);
-        var finishedTextObject = finishedText.GetComponent<TextMeshProUGUI>();
-        var alphaValueChangeTime = Time.deltaTime;
+        var targetText = finishedText.GetComponent<TextMeshProUGUI>();
+        var color = targetText.color;
 
-        while(finishedTextObject.color.a > 0)
+        //テキストの alpha値を０に近づけていく ー＞ 消えたらスコアを表示
+        while(color.a > 0)
         {
-            finishedTextObject.color = new Color(finishedTextObject.color.r, finishedTextObject.color.g, finishedTextObject.color.b,  -alphaValueChangeTime / 2);
-            finishedText = finishedTextObject.gameObject;
-        }
-        //「Finish」を左へイージング
-        //while(finishedText.transform.position.x >= -300)
-        //{
-        //    finishedText.transform.position = Vector3.Lerp(finishedText.transform.position, new Vector3(finishedText.transform.position.x - 5, finishedText.transform.position.y, 0), 0.1f);
-        //    Debug.Log(finishedText.transform.position);
+            textAlphaValueCount = Time.deltaTime * 2;
+            color.a -= textAlphaValueCount;
+            if(color.a < 0)
+            {
+                color.a = 0;
+            }
 
-        //    yield return null;
-        //}
+            //Debug.Log($"finishedTextObjectColor{finishedTextObjectColor.a}");
+            targetText.color = color;
+
+            yield return null;
+        }
 
         UIManager.Instance.UIActivityAndHidden(resultScoreOrderText, true);
         resultScoreText.text = UIManager.Instance.GetPoint().ToString();
