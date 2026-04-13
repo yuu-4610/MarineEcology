@@ -104,9 +104,16 @@ public class GameSceneUI : MonoBehaviour
     {
         //再読み込み
         var currentScene = SceneManager.GetActiveScene().name;
-        if (currentScene == SceneType.GameScene.ToString())
+
+        //リトライボタンを押したときに消えずにロードするバグが発生
+        //これの対策として、アクティブ化かつ透明化の処理 + バリデーションをする 
+        UIManager.Instance.UIActivityAndHidden(gameFinishedMask, false);
+        if (gameFinishedMask.GetComponent<CanvasGroup>().alpha != 1.0f)
         {
-            GameManager.Instance.SceneTrantition(SceneType.GameScene);
+            if (currentScene == SceneType.GameScene.ToString())
+            {
+                GameManager.Instance.SceneTrantition(SceneType.GameScene);
+            }
         }
     }
 
