@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
-    [SerializeField] AudioSource bgmSource; //基本１つのみ再生するので、柔軟性より管理しやすさをとるため、BGMを流す AudioSource はアタッチする
+    public AudioSource bgmSource { get; private set; } //基本１つのみ再生するので、柔軟性より管理しやすさをとるため、BGMを流す AudioSource はアタッチする
     [SerializeField] AudioMixer audioMixer; //オーディオミキサー
     [SerializeField] AudioMixerGroup bgmMixerGroup; //BGM音量管理グループ名
     [SerializeField] AudioMixerGroup seMixerGroup; //SE音量管理グループ名
@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
     {
         sePlayCount = 0;
         //BGM用AudioSourceに初期BGMとループ処理
+        bgmSource = GetComponent<AudioSource>();
         bgmSource.outputAudioMixerGroup = bgmMixerGroup;
         bgmSource.loop = true;
         //PlayBGM();
