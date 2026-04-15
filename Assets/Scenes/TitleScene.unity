@@ -569,11 +569,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1333898309}
   m_SourcePrefab: {fileID: 100100000, guid: e6196fbd208e7e147b74d752c9f45882, type: 3}
---- !u!82 &1333898307 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3273192383712251096, guid: e6196fbd208e7e147b74d752c9f45882, type: 3}
-  m_PrefabInstance: {fileID: 1333898306}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1333898308 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3209437810316618197, guid: e6196fbd208e7e147b74d752c9f45882, type: 3}
@@ -591,7 +586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee73310af027114d82b953ec146948a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmSource: {fileID: 1333898307}
   audioMixer: {fileID: 24100000, guid: 78d108351b7624244823a71eace2890a, type: 2}
   bgmMixerGroup: {fileID: -2841962884669943007, guid: 78d108351b7624244823a71eace2890a, type: 2}
   seMixerGroup: {fileID: 9132310069338820496, guid: 78d108351b7624244823a71eace2890a, type: 2}
@@ -985,6 +979,10 @@ PrefabInstance:
     - target: {fileID: 4837147256768056352, guid: a2ea9e863afda044f81f0b6e8e32aaec, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 29.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222031971686975189, guid: a2ea9e863afda044f81f0b6e8e32aaec, type: 3}
+      propertyPath: m_Text
+      value: "\u97F3\u91CF\u8A2D\u5B9A"
       objectReference: {fileID: 0}
     - target: {fileID: 6558887638705877735, guid: a2ea9e863afda044f81f0b6e8e32aaec, type: 3}
       propertyPath: m_AnchoredPosition.y
