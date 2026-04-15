@@ -89,7 +89,11 @@ public class GameManager : MonoBehaviour
                     //マイスコアランキングの読み取り
                     GameScoreInitialize();
                     
-                    AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.tokonatunoumi));
+                    //指定のBGMでなければ変更 ー＞ リトライ時にBGMが再再生されないよう
+                    if(AudioManager.Instance.bgmSource.clip.name != AudioHelper.ToName(AudioFileName.tokonatunoumi))
+                    {
+                        AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.tokonatunoumi));
+                    }
 
                     //通ってはいる
                     //プレイヤーの操作を受け付ける
