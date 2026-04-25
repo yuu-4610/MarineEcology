@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public static int sceneNumber; //シーン番号、遷移時に仕様
-    public int[] scores { get; private set; } //セーブ下リストのスコア + ゲーム終了時のスコア
+    public int[] scores { get; private set; } //セーブしたリストのスコア + ゲーム終了時のスコア
     public bool isPlayerControll = false; //プレイヤーの入力制限
 
     private GameData gameData; //スコア書き込み用変数

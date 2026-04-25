@@ -24,7 +24,7 @@ public class Piece : MonoBehaviour
         //識別用
         ++fruits_serial;
         my_serial = fruits_serial;
-        //ピースオブジェクトの各ポイント（点数）
+        //パズルピースの各ポイント（点数）
         point = 5 * ((int)fishNodeType + 1);
     }
 

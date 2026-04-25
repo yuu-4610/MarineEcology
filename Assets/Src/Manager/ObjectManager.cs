@@ -20,6 +20,8 @@ public class ObjectManager : MonoBehaviour
     }
     public GameObject GetOrCreate(string key, GameObject prefab)
     {
+        //objects を見て既に登録されているオブジェジェクトであればそのまま返す
+        //登録されていなければ第2引数の参照を元に生成 + 返す
         if (!objects.TryGetValue(key, out var obj) || obj == null)
         {
             obj = Instantiate(prefab);

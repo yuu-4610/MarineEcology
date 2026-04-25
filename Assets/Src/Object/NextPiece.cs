@@ -5,10 +5,10 @@ using UnityEngine;
 public class NextPiece : MonoBehaviour
 {
     public ObjectReference objectReference;
-    [SerializeField] GameObject[] piecesPosition; //Nextオブジェクトを設置する位置
-    private GameObject[] nextPieceObject; //Nextオブジェクトを格納（３つまで）
+    [SerializeField] GameObject[] piecesPosition; //予測リストに設置するパズルピースの位置情報
+    private GameObject[] nextPieceObject; //予測リストに設置するパズルピースを格納（３つまで）
 
-    private int[] nextPieceIndex; //Nextオブジェクトのオブジェクト番号（enumから
+    private int[] nextPieceIndex; //予測リストに設置するパズルピースのオブジェクト番号（enumから
     private int randomRangeMaxValues; //ランダム値
     private const int pieceObjectMaxValue = 3; //オブジェクト生成数
 
@@ -44,6 +44,7 @@ public class NextPiece : MonoBehaviour
     {
 
     }
+    //予測リストの先頭要素にあるパズルピース番号をPlayerに渡す
     private void NextPieceGenerate()
     {
         //Playerクラスに要素：０の参照を渡す
@@ -51,10 +52,10 @@ public class NextPiece : MonoBehaviour
         ObjectManager.Instance.Get<PlayableObject>(ReferenceObjectName.PlayableObject.ToString(), objectReference.player).randomValues = nextPieceIndex[0];
         //要素：０のオブジェクトを破壊
         Destroy(nextPieceObject[0]);
-        //Nextオブジェクトを更新
+        //予測リストに設置するパズルピースを更新
         nextPieceObject = SetNextPieces(nextPieceObject);
     }
-    //ネクストピースを進める
+    //予測リストに新たに設置するパズルピースの生成と設置
     private GameObject[] SetNextPieces(GameObject[] pieceObjects)
     {
         //要素０、１に参照を繰り上げ

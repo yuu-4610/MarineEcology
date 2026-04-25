@@ -23,14 +23,6 @@ public class PlayerContoroller : MonoBehaviour
     {
         InputPlayerControll();
         InputGame();
-        //ê‚ëŒè¡Ç∑
-        if(SceneManager.GetActiveScene().name == SceneType.GameScene.ToString())
-        {
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                ObjectEventManager.Instance.TrantitionGameToResultEvent();
-            }
-        }
     }
 
     private void InputPlayerControll()
