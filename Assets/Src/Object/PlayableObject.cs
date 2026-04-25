@@ -36,7 +36,7 @@ public class PlayableObject : MonoBehaviour
 
     void Update()
     {
-        //プレイヤーの移動処理をピースオブジェクトにも反映
+        //プレイヤーの移動処理をパズルピースにも反映
         PieceObjectMove();
     }
     //移動処理
@@ -64,7 +64,7 @@ public class PlayableObject : MonoBehaviour
     }
     public void PieceObjectMove()
     {
-        //ピースオブジェクトが存在しているならば
+        //パズルピースが存在しているならば
         if (pieceObject != null)
         {
             //プレイアブルオブジェクトより removePiecePosition だけ下

@@ -172,6 +172,7 @@ public class GameSceneUI : MonoBehaviour
             yield return null;
         }
 
+        //最終的な取得スコアを表示
         UIManager.Instance.UIActivityAndHidden(resultScoreOrderText, true);
         resultScoreText.text = UIManager.Instance.GetPoint().ToString();
     }
