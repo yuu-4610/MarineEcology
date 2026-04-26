@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 5606673075221383214}
   - component: {fileID: 7945577876405926288}
   - component: {fileID: -3068008781439186669}
+  - component: {fileID: -7161853381461228258}
   m_Layer: 0
   m_Name: 08_piece_kajiki
   m_TagString: Untagged
@@ -253,5 +254,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
   fishNodeType: 7
+  pieceMoveAction: {fileID: -7161853381461228258}
   isDestroyed: 0
-  isSynthesis: 0
+  hasCollider: 0
+--- !u!114 &-7161853381461228258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3727412982716717047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44806cb09f162d428031b76cda1ec12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 5439677810820837451}
+  removePiecePosition: 0

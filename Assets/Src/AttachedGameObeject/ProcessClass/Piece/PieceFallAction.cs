@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PieceMoveCommand : MonoBehaviour
+public class PieceFallAction : MonoBehaviour
 {
+    /*
+     *
+     */
+    //[SerializeField] CircleCollider2D circleCollider2D;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void PieceFall()
     {
         
     }

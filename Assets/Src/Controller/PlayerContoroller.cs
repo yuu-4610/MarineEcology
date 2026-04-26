@@ -17,7 +17,7 @@ public class PlayerContoroller : MonoBehaviour
 
     private void Awake()
     {
-        InitializePlayerMoveAction();
+        
     }
     private void OnEnable()
     {
@@ -25,27 +25,36 @@ public class PlayerContoroller : MonoBehaviour
     }
     void Start()
     {
-        
+        InitializePlayerMoveAction();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //移動と落下の命令クラスのメソッドを呼び出す
         MoveCommand();
         TestInputReception();
     }
     private void InitializePlayerMoveAction()
     {
+        /*１．命令クラスをInterface越しで初期化 → 依存度の低下＝クラスの変更が容易になる
+         *２．命令クラスの責務を限定 → 状態を持たない＝処理クラスを呼ぶだけに専念できる
+        */
+
         //PlayerMoveActionはこの場のみ
         var processMoveAction = new PlayerMoveAction(this.gameObject.transform, this.gameObject.transform.position.x, 4);
         moveAction = new PlayerMoveHandler(processMoveAction);
 
-        //落としたと検知し、イベントを呼ぶクラス
+        //落とした(=Spaceキー押下)と検知し、イベントを呼ぶクラス
         fallAction = new PlayerFallHandler();
     }
 
     private void MoveCommand()
     {
+        /*１．処理クラスをメソッド内でのみ使用 → 依存度の低下＝クラスの変更が容易になる
+         *２．処理クラスと依存関係にする → InitializePlayerMoveActionの項目２が実現できる
+         */
+
         //Playerを動かす処理 → マウスの操作で x 軸の変更
         var inputMoveValue = PlayerInput.MousePositionValue();
         moveAction.Execute(inputMoveValue);

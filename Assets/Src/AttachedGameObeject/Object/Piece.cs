@@ -7,23 +7,27 @@ public class Piece : MonoBehaviour
 {
     public ObjectReference objectReference;
     public FishNode fishNodeType; //Nodeタイプ
-    public int point { get; private set; } //得点数
+    [SerializeField] PieceMoveAction pieceMoveAction;
+    [SerializeField] PieceState pieceState;
     private Rigidbody2D rigidbody2D; //物理演算
     private CircleCollider2D circleCollider2D; //当たり判定
 
+    public int point { get; private set; } //得点数
     public bool isDestroyed = false; //このオブジェクトが存在するか
     //合成後オブジェクト：生成後当たり判定を有効化
     //NextObject：落下後当たり判定を有効化
-    public bool isSynthesis = false;
+    public bool hasCollider = false; //パズルピース同士の合体が可能か
+    private bool isDropObject = true; //落下処理を行うオブジェクトか（＝プレイヤーに追従するオブジェクトか）
+    private IPieceMove moveAction;
     private bool processOrder = false; //処理順
-    public bool isJudgement { get; private set; } = false;
-    private static int fruits_serial = 0; //生成番号
-    private int my_serial; //生成番号格納用
+    private static int fruitsSerial = 0; //生成番号
+    private int mySerial; //生成番号格納用
+
     private void Awake()
     {
         //識別用
-        ++fruits_serial;
-        my_serial = fruits_serial;
+        ++fruitsSerial;
+        mySerial = fruitsSerial;
         //ピースオブジェクトの各ポイント（点数）
         point = 5 * ((int)fishNodeType + 1);
     }
@@ -36,10 +40,12 @@ public class Piece : MonoBehaviour
         circleCollider2D = GetComponent<CircleCollider2D>();
         //オブジェクトのコンポーネントのアクティブ初期値
         //Nextオブジェクト → 非活性：合成後オブジェクト → 活性
-        if(!isSynthesis) circleCollider2D.enabled = false;
-        ObjectManager.Instance.Register(GenerateParentObjectName.Pieces.ToString(), this.gameObject);
+        if(!hasCollider) circleCollider2D.enabled = false;
+        //ObjectManager.Instance.Register(GenerateParentObjectName.Pieces.ToString(), this.gameObject);
         // tag 名を指定
         this.gameObject.tag = TagName.Piece.ToString();
+
+        InitializePieceMoveAction();
 
         //駒合成時に下ベクトルに向ける
         EventManager.Instance.PieceSyntghesis += PieceSyntghesis;
@@ -61,21 +67,28 @@ public class Piece : MonoBehaviour
         Vector2 v = rigidbody2D.velocity;
         v.y = -4f;
         rigidbody2D.velocity = v;
+
+        //移動の命令クラスのメソッドを呼び出す
+        MoveCommand();
     }
     private void ObjectDrop()
     {
         //イベント発火後、当たり判定を有効にする
         circleCollider2D.enabled = true;
-        IsJudge();
+    }
+    private void InitializePieceMoveAction()
+    {
+        moveAction = new PieceMoveHandler(pieceMoveAction);
+    }
+    private void MoveCommand()
+    {
+        //落下させるオブジェクト（＝Playerを追従する）であれば移動（追従）処理を行う
+        if(isDropObject) moveAction.Execute();
     }
     private void PieceSyntghesis()
     {
         //if(isSynthesis) rigidbody2D.gravityScale = 1f;
         //circleCollider2D.enabled = true;
-    }
-    private void IsJudge()
-    {
-        isJudgement = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collisionObject)
@@ -97,7 +110,7 @@ public class Piece : MonoBehaviour
         if (!otherPiece.isDestroyed)
         {
             // my_serial の値が大きいオブジェクトに処理をさせる
-            if (my_serial < otherPiece.my_serial)
+            if (mySerial < otherPiece.mySerial)
             {
                 //第３のオブジェクトと衝突したときに処理を走らせないようにする
                 isDestroyed = true;
@@ -112,10 +125,9 @@ public class Piece : MonoBehaviour
                     var nextObject = ObjectProcess.Instance.SynthesisPieceEvent(objectReference.pieceObjects[(int)fishNodeType + 1], this.gameObject, otherPiece, GenerateParentObjectName.Pieces.ToString());
                     if(nextObject != null)
                     {
-                        nextObject.GetComponent<Piece>().isSynthesis = true;
+                        nextObject.GetComponent<Piece>().hasCollider = true;
                     }
                     processOrder = true;
-                    IsJudge();
                 }
                 UIManager.Instance.SetPoint(otherPiece.point);
             }

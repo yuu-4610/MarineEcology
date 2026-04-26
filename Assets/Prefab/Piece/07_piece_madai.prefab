@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 7016876632930207239}
   - component: {fileID: 4075894194194275609}
   - component: {fileID: 3181136868289116124}
+  - component: {fileID: 1868695222976515871}
   m_Layer: 0
   m_Name: 07_piece_madai
   m_TagString: Untagged
@@ -253,5 +254,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
   fishNodeType: 6
+  pieceMoveAction: {fileID: 1868695222976515871}
   isDestroyed: 0
-  isSynthesis: 0
+  hasCollider: 0
+--- !u!114 &1868695222976515871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093940355745039691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44806cb09f162d428031b76cda1ec12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 8581325916269956835}
+  removePiecePosition: 0

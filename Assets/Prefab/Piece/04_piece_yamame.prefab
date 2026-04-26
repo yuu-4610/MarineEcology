@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5244621539654257295}
   - component: {fileID: 8913464459774215884}
   - component: {fileID: 1134645970151722150}
+  - component: {fileID: -1924838855951161463}
   m_Layer: 0
   m_Name: 04_piece_yamame
   m_TagString: Untagged
@@ -167,8 +168,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
   fishNodeType: 3
+  pieceMoveAction: {fileID: -1924838855951161463}
   isDestroyed: 0
-  isSynthesis: 0
+  hasCollider: 0
+--- !u!114 &-1924838855951161463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5600164059062902541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44806cb09f162d428031b76cda1ec12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 5363961191787575390}
+  removePiecePosition: 0
 --- !u!1 &6318614816499839737
 GameObject:
   m_ObjectHideFlags: 0

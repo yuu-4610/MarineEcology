@@ -60,3 +60,8 @@ public enum AudioFileName
     buttonClick, //ボタンを押したときの音
     turnThePage, //遊び方ボードをめくるときの音
 }
+public enum PieceState
+{
+    follow, //追従
+    Drop, //落下
+}

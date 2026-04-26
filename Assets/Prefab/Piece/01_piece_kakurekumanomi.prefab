@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7016072997895390972}
   - component: {fileID: 1257750691801808899}
   - component: {fileID: 5374618209048146974}
+  - component: {fileID: 382622545191180662}
   m_Layer: 0
   m_Name: 01_piece_kakurekumanomi
   m_TagString: Untagged
@@ -167,8 +168,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
   fishNodeType: 0
+  pieceMoveAction: {fileID: 382622545191180662}
   isDestroyed: 0
-  isSynthesis: 0
+  hasCollider: 0
+--- !u!114 &382622545191180662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307255169398570792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44806cb09f162d428031b76cda1ec12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 6520212157931489370}
+  removePiecePosition: 0
 --- !u!1 &3311395107759968242
 GameObject:
   m_ObjectHideFlags: 0

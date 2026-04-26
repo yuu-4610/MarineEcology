@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -2182601446287484140}
   - component: {fileID: 5651153792123411508}
   - component: {fileID: 6167923008748942134}
+  - component: {fileID: 6536328438949304469}
   m_Layer: 0
   m_Name: 02_piece_mebaru
   m_TagString: Untagged
@@ -253,5 +254,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
   fishNodeType: 1
+  pieceMoveAction: {fileID: 6536328438949304469}
   isDestroyed: 0
-  isSynthesis: 0
+  hasCollider: 0
+--- !u!114 &6536328438949304469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460610938547246275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44806cb09f162d428031b76cda1ec12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1628595402736509919}
+  removePiecePosition: 0
