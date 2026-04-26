@@ -61,7 +61,7 @@ public class JudgeLine : MonoBehaviour
                 if (judgeCount >= countRimit && !isGameFinish)
                 {
                     //ゲーム終了時のイベントを発火
-                    ObjectEventManager.Instance.TrantitionGameToResultEvent();
+                    EventManager.Instance.TrantitionGameToResultEvent();
                     isGameFinish = true;
                 }
             }

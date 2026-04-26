@@ -52,7 +52,7 @@ public class GameSceneUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        ObjectEventManager.Instance.TrantitionGameToResult -= GameFinished;
+        EventManager.Instance.TrantitionGameToResult -= GameFinished;
     }
 
     // Update is called once per frame
@@ -175,13 +175,13 @@ public class GameSceneUI : MonoBehaviour
         UIManager.Instance.UIActivityAndHidden(resultScoreOrderText, true);
         resultScoreText.text = UIManager.Instance.GetPoint().ToString();
     }
-    //ObjectEventManagerÇ™ê∂ê¨Ç≥ÇÍÇÈÇ‹Ç≈ë“Ç¬
+    //EventManagerÇ™ê∂ê¨Ç≥ÇÍÇÈÇ‹Ç≈ë“Ç¬
     private IEnumerator EventRegistration()
     {
-        while (ObjectEventManager.Instance == null)
+        while (EventManager.Instance == null)
         {
             yield return null;
         }
-        ObjectEventManager.Instance.TrantitionGameToResult += GameFinished;
+        EventManager.Instance.TrantitionGameToResult += GameFinished;
     }
 }

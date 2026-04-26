@@ -54,8 +54,8 @@ public class PlayableObject : MonoBehaviour
     {
         if (pieceObject == null) return;
         //発火
-        ObjectEventManager.Instance.ObjectDropEvent();
-        ObjectEventManager.Instance.ObjectGenerateEvent();
+        EventManager.Instance.PieceObjectDropEvent();
+        EventManager.Instance.PieceObjectGenerateEvent();
         //参照を破棄
         pieceObject = null;
 

@@ -36,9 +36,9 @@ public class ObjectProcess : MonoBehaviour
     private void OnDestroy()
     {
         //ƒCƒxƒ“ƒg“o˜^‰ğœ
-        if (ObjectEventManager.Instance != null)
+        if (EventManager.Instance != null)
         {
-            //ObjectEventManager.Instance.ObjectGenerate -= GeneratePieceObject;
+            //EventManager.Instance.ObjectGenerate -= GeneratePieceObject;
         }
     }
     private void Start()

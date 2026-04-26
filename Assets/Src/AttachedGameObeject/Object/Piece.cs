@@ -42,17 +42,17 @@ public class Piece : MonoBehaviour
         this.gameObject.tag = TagName.Piece.ToString();
 
         //駒合成時に下ベクトルに向ける
-        ObjectEventManager.Instance.PieceSyntghesis += PieceSyntghesis;
+        EventManager.Instance.PieceSyntghesis += PieceSyntghesis;
     }
     private void OnEnable()
     {
         //イベント登録
-        ObjectEventManager.Instance.ObjectDrop += ObjectDrop;
+        EventManager.Instance.PieceObjectDrop += ObjectDrop;
     }
     private void OnDisable()
     {
-        ObjectEventManager.Instance.ObjectDrop -= ObjectDrop;
-        ObjectEventManager.Instance.PieceSyntghesis -= PieceSyntghesis;
+        EventManager.Instance.PieceObjectDrop -= ObjectDrop;
+        EventManager.Instance.PieceSyntghesis -= PieceSyntghesis;
     }
 
     // Update is called once per frame

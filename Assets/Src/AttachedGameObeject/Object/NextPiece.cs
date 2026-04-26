@@ -28,7 +28,7 @@ public class NextPiece : MonoBehaviour
             nextPieceIndex[i] = randomValues;
         }
         //ƒCƒxƒ“ƒg“o˜^
-        ObjectEventManager.Instance.ObjectGenerate += NextPieceGenerate;
+        EventManager.Instance.PieceObjectGenerate += NextPieceGenerate;
     }
     private void OnEnable()
     {
@@ -36,7 +36,7 @@ public class NextPiece : MonoBehaviour
     }
     private void OnDisable()
     {
-        ObjectEventManager.Instance.ObjectGenerate -= NextPieceGenerate;
+        EventManager.Instance.PieceObjectGenerate -= NextPieceGenerate;
     }
 
     // Update is called once per frame

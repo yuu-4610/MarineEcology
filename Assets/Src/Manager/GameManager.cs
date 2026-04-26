@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        ObjectEventManager.Instance.TrantitionGameToResult -= GameFinish;
+        EventManager.Instance.TrantitionGameToResult -= GameFinish;
     }
     void Start()
     {
@@ -176,14 +176,14 @@ public class GameManager : MonoBehaviour
         }
         SaveSystem.Save(gameData);
     }
-    //ObjectEventManager‚ª¶¬‚³‚ê‚é‚Ü‚Å‘Ò‚Â
+    //EventManager‚ª¶¬‚³‚ê‚é‚Ü‚Å‘Ò‚Â
     private IEnumerator EventRegistration()
     {
-        while(ObjectEventManager.Instance == null)
+        while(EventManager.Instance == null)
         {
             yield return null;
         }
-        ObjectEventManager.Instance.TrantitionGameToResult -= GameFinish;
-        ObjectEventManager.Instance.TrantitionGameToResult += GameFinish;
+        EventManager.Instance.TrantitionGameToResult -= GameFinish;
+        EventManager.Instance.TrantitionGameToResult += GameFinish;
     }
 }
