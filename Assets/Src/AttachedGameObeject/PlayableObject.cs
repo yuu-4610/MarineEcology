@@ -54,8 +54,8 @@ public class PlayableObject : MonoBehaviour
     {
         if (pieceObject == null) return;
         //発火
-        EventManager.Instance.PieceObjectDropEvent();
-        EventManager.Instance.PieceObjectGenerateEvent();
+        //EventManager.Instance.PieceObjectDropEvent();
+        //EventManager.Instance.PieceObjectGenerateEvent();
         //参照を破棄
         pieceObject = null;
 
@@ -81,7 +81,7 @@ public class PlayableObject : MonoBehaviour
         var generateObjectIndex = randomValues;
 
         //次のオブジェクトの生成・変数への代入
-        var generateObject = ObjectProcess.Instance.GeneratePieceObject(objectReferece.pieceObjects[generateObjectIndex], gameObject.transform, GenerateParentObjectName.Pieces.ToString());
+        var generateObject = ObjectFactory.Instance.GeneratePieceObject(objectReferece.pieceObjects[generateObjectIndex], gameObject.transform, GenerateParentObjectName.Pieces.ToString());
         pieceObject = generateObject;
     }
 }

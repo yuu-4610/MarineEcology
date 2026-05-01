@@ -11,8 +11,11 @@ public class PlayerContoroller : MonoBehaviour
     //[SerializeField] GameSceneUI gameSceneButton;
     [SerializeField] ObjectReference objectReference;
 
-    private IPlayerMove moveAction;
-    private IPlayerMove fallAction;
+    private IPlayerMove moveAction; //移動処理命令クラス用インターフェース
+    private IPlayerMove fallAction; //落下処理命令クラス用インターフェース
+
+    private float mouseInputValue = 0; //マウスの操作値
+    private float SpaceInputValue = 0; //Spaceキーの入力値
     // Start is called before the first frame update
 
     private void Awake()
@@ -39,6 +42,8 @@ public class PlayerContoroller : MonoBehaviour
     {
         /*１．命令クラスをInterface越しで初期化 → 依存度の低下＝クラスの変更が容易になる
          *２．命令クラスの責務を限定 → 状態を持たない＝処理クラスを呼ぶだけに専念できる
+         *３．処理クラスをメソッド内でのみ使用 → 依存度の低下＝クラスの変更が容易になる
+         *４．処理クラスと依存関係にする → InitializePlayerMoveActionの項目２が実現できる
         */
 
         //PlayerMoveActionはこの場のみ
@@ -47,12 +52,12 @@ public class PlayerContoroller : MonoBehaviour
 
         //落とした(=Spaceキー押下)と検知し、イベントを呼ぶクラス
         fallAction = new PlayerFallHandler();
+
     }
 
     private void MoveCommand()
     {
-        /*１．処理クラスをメソッド内でのみ使用 → 依存度の低下＝クラスの変更が容易になる
-         *２．処理クラスと依存関係にする → InitializePlayerMoveActionの項目２が実現できる
+        /*１．
          */
 
         //Playerを動かす処理 → マウスの操作で x 軸の変更

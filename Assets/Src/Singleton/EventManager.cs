@@ -9,8 +9,10 @@ public class EventManager : MonoBehaviour
 
     public event Action PieceObjectDrop; //オブジェクトが落ちた時に発火
     public event Action PieceSyntghesis; //オブジェクト同士がくっついた時に発火
-    public event Action PieceObjectGenerate; //オブジェクトを作成したときに発火
     public event Action TrantitionGameToResult; //ゲーム終了時に発火
+
+    public event Action PieceObjectGenerate; //オブジェクトを作成したときに発火
+    public event Action NextPieceObjectGenerate;
 
     // Use this for initialization
     private void Awake()
@@ -43,15 +45,19 @@ public class EventManager : MonoBehaviour
     {
         PieceSyntghesis?.Invoke();
     }
-    public void PieceObjectGenerateEvent()
-    {
-        PieceObjectGenerate?.Invoke();
-    }
     public void TrantitionGameToResultEvent()
     {
         TrantitionGameToResult?.Invoke();
         int count = TrantitionGameToResult?.GetInvocationList().Length ?? 0;
         Debug.Log($"登録数: {count}");
+    }
+    public void PieceObjectGenerateEvent(GameObject generateObject, Transform objectTransform, string parentObjectName)
+    {
+        PieceObjectGenerate?.Invoke();
+    }
+    public void NextPieceObjectGenerateEvent(GameObject generateObject, Transform objectTransform, string parentObjectName)
+    {
+        NextPieceObjectGenerate?.Invoke();
     }
     public int GetObjectGenerateListenerCount()
     {

@@ -9,15 +9,18 @@ public class PieceMoveAction : MonoBehaviour
      *メリット：責務の重複を防ぐ
      *デメリット：Pieceオブジェクトの依存性の向上（このクラスを保持しているため）
      */
-    [Header("プレイヤーの位置情報(Transform)")]
-    [SerializeField] Transform playerTransform;
+
+    private Transform playerTransform;
     [Header("プレイヤーから離れている距離")]
     [SerializeField] float removePiecePosition;
+    [Header("サークルコライダー")]
+    private CircleCollider2D circleCollider2D; //当たり判定
 
     private float initializePositionY;
 
     private void Start()
     {
+        playerTransform = this.transform;
         initializePositionY = transform.position.y;
     }
 

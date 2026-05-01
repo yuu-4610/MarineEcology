@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public enum FishNode
+public enum FishType
 {
     node0 = 0, //カクレクマノミ
     node1 = 1, //メバル
@@ -62,6 +62,8 @@ public enum AudioFileName
 }
 public enum PieceState
 {
-    follow, //追従
+    Idle, //デフォルト値
+    Follow, //追従
     Drop, //落下
+    Die, //消える
 }

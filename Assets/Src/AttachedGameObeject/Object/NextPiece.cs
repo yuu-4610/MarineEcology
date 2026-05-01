@@ -24,7 +24,7 @@ public class NextPiece : MonoBehaviour
         for (int i = 0; i < piecesPosition.Length; i++)
         {
             var randomValues = Random.Range(0, randomRangeMaxValues);
-            nextPieceObject[i] = ObjectProcess.Instance.GeneratePieceObject(objectReference.nextPieces[randomValues], piecesPosition[i].transform, GenerateParentObjectName.NextPieces.ToString());
+            nextPieceObject[i] = ObjectFactory.Instance.GeneratePieceObject(objectReference.nextPieces[randomValues], piecesPosition[i].transform, GenerateParentObjectName.NextPieces.ToString());
             nextPieceIndex[i] = randomValues;
         }
         //イベント登録
@@ -66,7 +66,7 @@ public class NextPiece : MonoBehaviour
         }
         //末尾（要素：２）に参照するオブジェクトを生成
         var randomValues = Random.Range(0, randomRangeMaxValues);
-        pieceObjects[pieceObjectMaxValue - 1] = ObjectProcess.Instance.GeneratePieceObject(objectReference.nextPieces[randomValues], piecesPosition[pieceObjectMaxValue - 1].transform, GenerateParentObjectName.NextPieces.ToString());
+        pieceObjects[pieceObjectMaxValue - 1] = ObjectFactory.Instance.GeneratePieceObject(objectReference.nextPieces[randomValues], piecesPosition[pieceObjectMaxValue - 1].transform, GenerateParentObjectName.NextPieces.ToString());
         pieceObjects[pieceObjectMaxValue - 1].transform.position = piecesPosition[pieceObjectMaxValue - 1].transform.position;
         nextPieceIndex[pieceObjectMaxValue - 1] = randomValues;
 

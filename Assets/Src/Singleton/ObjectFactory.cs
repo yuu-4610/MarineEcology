@@ -1,17 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ObjectProcess : MonoBehaviour
+public class ObjectFactory : MonoBehaviour
 {
     //インスタンス化
-    public static ObjectProcess Instance { get; private set; }
+    public static ObjectFactory Instance { get; private set; }
     //[HideInInspector] public Transform objectTransform; //生成予定オブジェクトの位置情報
 
-    private string[] parentObjectsName;
     Dictionary<string, GameObject> parents = new Dictionary<string, GameObject>();
     //[HideInInspector] int objectLength; //オブジェクト配列の
 
@@ -27,11 +23,11 @@ public class ObjectProcess : MonoBehaviour
     }
     private void OnEnable()
     {
-        
+
     }
     private void OnDisable()
     {
-        
+
     }
     private void OnDestroy()
     {
@@ -43,11 +39,7 @@ public class ObjectProcess : MonoBehaviour
     }
     private void Start()
     {
-        
-    }
-    private void Update()
-    {
-        
+
     }
 
     // Start is called before the first frame update
@@ -84,5 +76,4 @@ public class ObjectProcess : MonoBehaviour
 
         return parent;
     }
-    
 }
