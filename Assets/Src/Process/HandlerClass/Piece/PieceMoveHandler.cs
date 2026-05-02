@@ -9,7 +9,7 @@ public class PieceMoveHandler : IPieceMove
     private PieceMoveAction pieceMoveAction;
     private PieceStateHandler pieceStateHandler;
     private PieceViewHandler pieceViewHandler;
-    private static PieceState pieceStateFollow = PieceState.Follow;
+    private const PieceState pieceStateFollow = PieceState.Follow;
     // Start is called before the first frame update
     
     public PieceMoveHandler(PieceMoveAction pieceMoveAction, PieceStateHandler pieceStateHandler, PieceViewHandler pieceViewHandler)

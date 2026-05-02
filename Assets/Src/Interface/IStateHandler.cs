@@ -8,5 +8,5 @@ public interface IStateHandler
     //ˆø”‚ğ®”Œ^‚É‚·‚é‚±‚Æ‚ÅAenum ‚ğg‚Á‚ÄŠÇ—‚µ‚Ä‚¢‚éó‘Ô‚ğ“ü‚ê‚é‚±‚Æ‚ª‰Â”\‚Æ‚È‚é
     void Execute(int stateNumbere);
 
-    int IsDesignationStatus();
+    int IsDesignationState();
 }

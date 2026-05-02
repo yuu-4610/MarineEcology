@@ -8,7 +8,7 @@ public class PieceFallHandler : IPieceMove
      */
     private PieceStateHandler pieceStateHandler;
     private PieceViewHandler pieceViewHandler;
-    private static PieceState piecestateDrop = PieceState.Drop;
+    private const PieceState piecestateDrop = PieceState.Drop;
 
     public PieceFallHandler(PieceStateHandler pieceStateHandler, PieceViewHandler pieceViewHandler)
     {

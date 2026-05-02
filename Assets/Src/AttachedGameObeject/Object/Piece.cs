@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    public ObjectReference objectReference;
     //使用予定
     [Header("パズルピースの番号・魚の種類")]
     public FishType fishPieceType; //パズルピースの番号
     [Header("パズルピースの移動処理をするクラス")]
     [SerializeField] PieceMoveAction pieceMoveAction; //パズルピースのプレイヤー追従処理をするクラス
+    [Header("パズルピースの破壊時の処理をするクラス")]
+    [SerializeField] PieceDieAction pieceDieAction;
     [Header("パズルピースのコンポーネントや見た目を管理するクラス")]
     [SerializeField] PieceViewController pieceViewController;
     private IPieceMove moveAction;
     private IPieceMove fallAction;
+    private IPieceMove dieAction;
     private IStateHandler stateHandler; //落下状態専用状態指定・取得クラス
     private IColliderJudgement colliderJudgement;
     private static int fruitsSerial = 0; //生成番号
@@ -25,7 +27,6 @@ public class Piece : MonoBehaviour
     [HideInInspector] public bool isDestroyed = false; //このオブジェクトが存在するか
     //合成後オブジェクト：生成後当たり判定を有効化
     //NextObject：落下後当たり判定を有効化
-    [HideInInspector] public bool hasCollider = false; //パズルピース同士の合体が可能か
     
     private bool processOrder = false; //処理順
     
@@ -54,11 +55,10 @@ public class Piece : MonoBehaviour
     {
         //イベント登録
         EventManager.Instance.PieceObjectDrop += ObjectDrop;
-        EventManager.Instance.PieceSyntghesis += PieceSyntghesis;
     }
     private void OnDisable()
     {
-        EventManager.Instance.PieceSyntghesis -= PieceSyntghesis;
+        
     }
 
     // Update is called once per frame
@@ -84,6 +84,8 @@ public class Piece : MonoBehaviour
         moveAction = new PieceMoveHandler(pieceMoveAction, (PieceStateHandler)stateHandler, pieceViewHandler);
         //落下処理命令クラス（MonoBehaviour継承クラス）を渡す
         fallAction = new PieceFallHandler((PieceStateHandler)stateHandler, pieceViewHandler);
+        //
+        dieAction = new PieceDieHandler((PieceStateHandler)stateHandler, pieceDieAction);
         //衝突処理時の条件クラス
         var pieceColliderJudgement = new PieceColliderJudgement();
         colliderJudgement = new PieceColliderJudgementHandler(pieceColliderJudgement, fishPieceType);
@@ -92,7 +94,7 @@ public class Piece : MonoBehaviour
     {
         //落下させるオブジェクト（＝Playerを追従する）であれば移動（追従）処理を行う
         //ー＞状態が落下になっていればはじくため、枠内にいるパズルピースに影響は出ない
-        if(stateHandler.IsDesignationStatus() < (int)PieceState.Drop) moveAction.Execute();
+        if(IsDesignationStateValue() < (int)PieceState.Drop) moveAction.Execute();
     }
     private void ObjectDrop()
     {
@@ -101,17 +103,31 @@ public class Piece : MonoBehaviour
         //イベントの削除
         EventManager.Instance.PieceObjectDrop -= ObjectDrop;
     }
-    private void PieceSyntghesis()
-    {
-        //if(isSynthesis) rigidbody2D.gravityScale = 1f;
-        //circleCollider2D.enabled = true;
-    }
+    
 
     private void OnCollisionEnter2D(Collision2D otherCollisionObject)
     {
         if (!colliderJudgement.IsHitJudgement(otherCollisionObject)) return;
 
+        otherCollisionObject.gameObject.TryGetComponent(out Piece otherPiece);
+
+        PieceSyntghesisConditions(otherPiece);
+
         //StartCoroutine(PieceSyntghesisCoroutine(otherPiece));
+    }
+    private void PieceSyntghesisConditions(Piece otherPiece)
+    {
+        if (otherPiece.IsDesignationStateValue() != (int)PieceState.Die)
+        {
+            if (mySerial < otherPiece.mySerial)
+            {
+                dieAction.Execute();
+            }
+        }
+    }
+    public int IsDesignationStateValue()
+    {
+        return stateHandler.IsDesignationState();
     }
 
     private IEnumerator PieceSyntghesisCoroutine(Piece otherPiece)
@@ -129,16 +145,16 @@ public class Piece : MonoBehaviour
                 AudioManager.Instance.PlaySE(AudioHelper.ToName(AudioFileName.onoma));
 
                 //次のオブジェクトがあれば実行
-                if (objectReference.pieceObjects.Length > (int)fishPieceType + 1)
-                {
-                    //次番号のオブジェクトを生成
-                    var nextObject = ObjectFactory.Instance.SynthesisPieceEvent(objectReference.pieceObjects[(int)fishPieceType + 1], this.gameObject, otherPiece, GenerateParentObjectName.Pieces.ToString());
-                    if(nextObject != null)
-                    {
-                        nextObject.GetComponent<Piece>().hasCollider = true;
-                    }
-                    processOrder = true;
-                }
+                //if (objectReference.pieceObjects.Length > (int)fishPieceType + 1)
+                //{
+                //    //次番号のオブジェクトを生成
+                //    var nextObject = ObjectFactory.Instance.SynthesisPieceEvent(objectReference.pieceObjects[(int)fishPieceType + 1], this.gameObject, otherPiece, GenerateParentObjectName.Pieces.ToString());
+                //    if(nextObject != null)
+                //    {
+                        
+                //    }
+                //    processOrder = true;
+                //}
                 UIManager.Instance.SetPoint(otherPiece.point);
             }
             // my_serial の値の値が小さいほうの処理

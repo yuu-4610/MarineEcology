@@ -14,7 +14,7 @@ public class PieceStateHandler : IStateHandler
     {
         pieceStateController.ChangeExecutionPieceState(pieceState);
     }
-    public int IsDesignationStatus()
+    public int IsDesignationState()
     {
         return (int)pieceStateController.GetPieceState();
     }
