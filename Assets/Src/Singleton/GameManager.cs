@@ -13,14 +13,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public static int sceneNumber; //シーン番号、遷移時に仕様
     public int[] scores { get; private set; } //セーブ下リストのスコア + ゲーム終了時のスコア
-    public bool isPlayerControll = false; //プレイヤーの入力制限
+    //public bool isPlayerControll = false; //プレイヤーの入力制限
 
-    private GameData gameData; //スコア書き込み用変数
-    private GameData loadData; //スコア読み取り用変数
-    private const int listLength = 3; //Jsonファイルの保存数（処理回数に使用）
-    private bool isTrantitionSceneProcess = false; //シーン遷移時に一度だけ行う処理のフラグ
-
-    public bool testFlg; //テスト用 → Pieceオブジェクトの衝突時の処理を OFF にする
+    //public bool testFlg; //テスト用 → Pieceオブジェクトの衝突時の処理を OFF にする
 
     // Start is called before the first frame update
     private void Awake()
@@ -43,23 +38,21 @@ public class GameManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        EventManager.Instance.TrantitionGameToResult -= GameFinish;
+        EventManager.Instance.transitionGameToResult -= GameFinish;
     }
     void Start()
     {
         //万が一TitleSceneから始まらなかった場合の処理
         var startScene = SceneManager.GetActiveScene().name;
-        if(startScene != SceneType.TitleScene.ToString())
+        if(startScene != SceneName.TitleScene.ToString())
         {
-            SceneTrantition(SceneType.TitleScene);
-            sceneNumber = (int)SceneType.TitleScene;
+            SceneTransition(SceneName.TitleScene);
+            sceneNumber = (int)SceneName.TitleScene;
         }
         //正常に進行したときの処理
         else
         {
-            //シーンごとにある処理を有効にする
-            isTrantitionSceneProcess = true;
-            sceneNumber = (int)SceneType.TitleScene;
+            sceneNumber = (int)SceneName.TitleScene;
         }
 
     }
@@ -67,115 +60,32 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"isPlayerControll{isPlayerControll}");
-        Debug.Log($"isTrantitionSceneProcess{isTrantitionSceneProcess}");
-        switch (sceneNumber)
-        {
-            case (int)SceneType.TitleScene: //０：タイトルシーン
-                if (isTrantitionSceneProcess)
-                {
-                    //マイスコアランキングの読み取り
-                    GameScoreInitialize();
-                    AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.kaityusekai));
-
-                    //処理の無効化（処理はシーン遷移時に１度のみ）
-                    isTrantitionSceneProcess = false;
-                }
-
-                break;
-            case (int)SceneType.GameScene: //１：ゲームシーン
-                if (isTrantitionSceneProcess)
-                {
-                    //マイスコアランキングの読み取り
-                    GameScoreInitialize();
-                    
-                    //指定のBGMでなければ変更 ー＞ リトライ時にBGMが再再生されないよう
-                    if(AudioManager.Instance.bgmSource.clip.name != AudioHelper.ToName(AudioFileName.tokonatunoumi))
-                    {
-                        AudioManager.Instance.PlayBGM(AudioHelper.ToName(AudioFileName.tokonatunoumi));
-                    }
-
-                    //通ってはいる
-                    //プレイヤーの操作を受け付ける
-                    isPlayerControll = true;
-
-                    //処理の無効化（処理はシーン遷移時に１度のみ）
-                    isTrantitionSceneProcess = false;
-                }
-                break;
-        }
+        
     }
-    public void SceneTrantition(SceneType sceneType)
+    public void SceneTransition(SceneName sceneType)
     {
         sceneNumber = (int)sceneType;
-        isTrantitionSceneProcess = true;
-        
-
-        //ゲームシーン以外に遷移する場合
-        if (sceneNumber != (int)SceneType.GameScene)
-        {
-            isPlayerControll = false;
-        }
-
         //シーン遷移・各シーン開始時の処理を有効化
         SceneManager.LoadScene(sceneType.ToString());
-    }
-    //スコアランキングの取得（タイトル画面で実行）
-    public void GameScoreInitialize()
-    {
-        gameData = new GameData();
-        scores = new int[listLength + 1];
+        //シーン遷移時に処理
+        EventManager.Instance.SceneTransitionEvent((int)sceneType);
 
-        //データをロード
-        loadData = SaveSystem.Load();
-        
-        //セーブデータが存在しない場合は新しく作る
-        if (loadData.myScores == null)
+        //ゲームシーン以外に遷移する場合
+        if (sceneNumber != (int)SceneName.GameScene)
         {
-            loadData.myScores = new List<MyScore>();
+            
         }
-        if (loadData.myScores.Count == 0)
-        {
-            for (int i = 0; i < 3; ++i)
-            {
-                //初期化子の時点で id と myScore が作成される（id：０　myScores：０）
-                loadData.myScores.Add(new MyScore());
-            }
-        }
-
-        for (int i = 0; i < listLength; ++i)
-        {
-            scores[i] = loadData.myScores[i].myScore;
-        }
-        
     }
+    
     //GameScene 終了時の処理
     private void GameFinish()
     {
         //PlayableObject の操作を不可能にする
-        isPlayerControll = false;
+        
         //マイスコアを更新
-        GameScoreSave();
+        EventManager.Instance.ScoreSaveEvent();
     }
-    //スコアの取得とランキング更新
-    public void GameScoreSave()
-    {
-        //最終点数の取得
-        var totalPoint = UIManager.Instance.GetPoint();
-        if (gameData.myScores == null) gameData.myScores = new List<MyScore>();
-        gameData.myScores.Clear();
 
-        scores[listLength] = totalPoint;
-        scores = scores.OrderByDescending(x => x).ToArray();
-        for (int i = 0; i < listLength; ++i)
-        {
-            MyScore myScore = new MyScore();
-            myScore.id = i + 1;
-            myScore.myScore = scores[i];
-            gameData.myScores.Add(myScore);
-        }
-        SaveSystem.Save(gameData);
-    }
     //EventManagerが生成されるまで待つ
     private IEnumerator EventRegistration()
     {
@@ -183,7 +93,6 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-        EventManager.Instance.TrantitionGameToResult -= GameFinish;
-        EventManager.Instance.TrantitionGameToResult += GameFinish;
+        EventManager.Instance.transitionGameToResult += GameFinish;
     }
 }

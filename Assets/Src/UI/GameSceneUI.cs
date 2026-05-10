@@ -52,7 +52,7 @@ public class GameSceneUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        EventManager.Instance.TrantitionGameToResult -= GameFinished;
+        EventManager.Instance.transitionGameToResult -= GameFinish;
     }
 
     // Update is called once per frame
@@ -77,12 +77,12 @@ public class GameSceneUI : MonoBehaviour
         Debug.Log("２");
 
         UIManager.Instance.UIActivityAndHidden(optiongBoard, true);
-        GameManager.Instance.isPlayerControll = false;
+        //GameManager.Instance.isPlayerControll = false;
     }
     public void OptionButtonHidden()
     {
         UIManager.Instance.UIActivityAndHidden(optiongBoard, false);
-        GameManager.Instance.isPlayerControll = true;
+        //GameManager.Instance.isPlayerControll = true;
     }
 
     //スコアランキング表示用-----------------------------------------------------
@@ -96,9 +96,9 @@ public class GameSceneUI : MonoBehaviour
         UIManager.Instance.UIActivityAndHidden(scoreBoard, false);
         UIManager.Instance.UIActivityAndHidden(optiongBoard, true);
     }
-    public void TrantitionGameToTitle()
+    public void TransitionGameToTitle()
     {
-        GameManager.Instance.SceneTrantition(SceneType.TitleScene);
+        GameManager.Instance.SceneTransition(SceneName.TitleScene);
     }
     public void ReloadGameScene()
     {
@@ -110,14 +110,14 @@ public class GameSceneUI : MonoBehaviour
         UIManager.Instance.UIActivityAndHidden(gameFinishedMask, false);
         if (gameFinishedMask.GetComponent<CanvasGroup>().alpha != 1.0f)
         {
-            if (currentScene == SceneType.GameScene.ToString())
+            if (currentScene == SceneName.GameScene.ToString())
             {
-                GameManager.Instance.SceneTrantition(SceneType.GameScene);
+                GameManager.Instance.SceneTransition(SceneName.GameScene);
             }
         }
     }
 
-    private void GameFinished()
+    private void GameFinish()
     {
         //ゲーム終了時の処理、「Finish」と黒い幕を降ろす
         UIManager.Instance.UIActivityAndHidden(gameFinishedMask, true);
@@ -173,6 +173,7 @@ public class GameSceneUI : MonoBehaviour
         }
 
         UIManager.Instance.UIActivityAndHidden(resultScoreOrderText, true);
+        //取得した得点を参照する
         resultScoreText.text = UIManager.Instance.GetPoint().ToString();
     }
     //EventManagerが生成されるまで待つ
@@ -182,6 +183,6 @@ public class GameSceneUI : MonoBehaviour
         {
             yield return null;
         }
-        EventManager.Instance.TrantitionGameToResult += GameFinished;
+        EventManager.Instance.transitionGameToResult += GameFinish;
     }
 }

@@ -14,9 +14,6 @@ public class PlayerContoroller : MonoBehaviour
     private IPlayerMove moveAction; //移動処理命令クラス用インターフェース
     private IPlayerMove fallAction; //落下処理命令クラス用インターフェース
 
-    private float mouseInputValue = 0; //マウスの操作値
-    private float SpaceInputValue = 0; //Spaceキーの入力値
-    // Start is called before the first frame update
 
     private void Awake()
     {
@@ -74,7 +71,7 @@ public class PlayerContoroller : MonoBehaviour
         if (PlayerInput.OptionButton() == 1)
         {
             Debug.Log(objectReference.gameSceneUI);
-            if(SceneManager.GetActiveScene().name == SceneType.GameScene.ToString())
+            if(SceneManager.GetActiveScene().name == SceneName.GameScene.ToString())
             {
                 ObjectManager.Instance.Get<GameSceneUI>(ReferenceObjectName.Canvas_GameScene.ToString(), objectReference.gameSceneUI).OptionButtonDisplay();
             }

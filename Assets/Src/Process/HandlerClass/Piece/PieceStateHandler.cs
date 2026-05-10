@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PieceStateHandler : IStateHandler
+public class PieceStateHandler
 {
     private PieceStateController pieceStateController;
     private PieceState pieceState;

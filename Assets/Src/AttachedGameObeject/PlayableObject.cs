@@ -81,7 +81,7 @@ public class PlayableObject : MonoBehaviour
         var generateObjectIndex = randomValues;
 
         //次のオブジェクトの生成・変数への代入
-        var generateObject = ObjectFactory.Instance.GeneratePieceObject(objectReferece.pieceObjects[generateObjectIndex], gameObject.transform, GenerateParentObjectName.Pieces.ToString());
-        pieceObject = generateObject;
+        //var generateObject = ObjectFactory.Instance.GeneratePieceObject(objectReferece.pieceObjects[generateObjectIndex], gameObject.transform, GenerateParentObjectName.Pieces.ToString());
+        //pieceObject = generateObject;
     }
 }

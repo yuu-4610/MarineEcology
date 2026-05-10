@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 2486759315437060038}
   - component: {fileID: 5244621539654257295}
   - component: {fileID: 8913464459774215884}
-  - component: {fileID: 1134645970151722150}
-  - component: {fileID: -1924838855951161463}
+  - component: {fileID: 7808457044529479328}
+  - component: {fileID: 6114965293186237669}
+  - component: {fileID: 7654482797946324459}
+  - component: {fileID: 2289016422956684606}
   m_Layer: 0
   m_Name: 04_piece_yamame
   m_TagString: Untagged
@@ -154,7 +156,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2.245
---- !u!114 &1134645970151722150
+--- !u!114 &7808457044529479328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,15 +165,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5600164059062902541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f456e7d4733201e4186b0777cacbc3db, type: 3}
+  m_Script: {fileID: 11500000, guid: 81b4145fcb76a7446acb56efcc714d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
-  fishNodeType: 3
-  pieceMoveAction: {fileID: -1924838855951161463}
-  isDestroyed: 0
-  hasCollider: 0
---- !u!114 &-1924838855951161463
+  fishPieceType: 3
+  pieceFollowAction: {fileID: 7654482797946324459}
+  pieceFallAction: {fileID: 6114965293186237669}
+  pieceViewController: {fileID: 2289016422956684606}
+--- !u!114 &6114965293186237669
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,11 +181,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 5600164059062902541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a44806cb09f162d428031b76cda1ec12, type: 3}
+  m_Script: {fileID: 11500000, guid: 439ef51c885faca439a2d96fe6fa1c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 5363961191787575390}
-  removePiecePosition: 0
+--- !u!114 &7654482797946324459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5600164059062902541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d742684f22110e4c86c101a48e78077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  removePiecePosition: 3
+  playerTransform: {fileID: 3255777198896363471, guid: 8285dda045a1cde48a2cbc69d89d99de, type: 3}
+--- !u!114 &2289016422956684606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5600164059062902541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b86f935cb24337448ba594006a129e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6318614816499839737
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,9 +35,9 @@ public class TitleSceneUI : MonoBehaviour
     {
         
     }
-    public void TrantitionTitleToGame()
+    public void TransitionTitleToGame()
     {
-        GameManager.Instance.SceneTrantition(SceneType.GameScene);
+        GameManager.Instance.SceneTransition(SceneName.GameScene);
     }
     //マイスコア表示
     public void MyScoreDisplay()

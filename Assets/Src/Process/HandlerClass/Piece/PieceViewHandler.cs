@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PieceViewHandler : IViewManagement
+public class PieceViewHandler
 {
     /*パズルピースのコンポーネントや見た目の変更を命令するクラス
      */
@@ -14,6 +14,6 @@ public class PieceViewHandler : IViewManagement
     public void ChangeView(int stateNumber)
     {
         if(stateNumber == (int)PieceState.Follow)pieceViewController.FollowView();
-        else if (stateNumber == (int)PieceState.Drop)pieceViewController.DropView();
+        else if (stateNumber == (int)PieceState.Fall)pieceViewController.DropView();
     }
 }

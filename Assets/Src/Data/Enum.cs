@@ -3,22 +3,22 @@ using UnityEngine;
 
 public enum FishType
 {
-    node0 = 0, //カクレクマノミ
-    node1 = 1, //メバル
-    node2 = 2, //アジ
-    node3 = 3, //ヤマメ
-    node4 = 4, //マゴチ
-    node5 = 5, //キハダ
-    node6 = 6, //マダイ
-    node7 = 7, //カジキ
-    node8 = 8, //ジンベエ
+    type0 = 0, //カクレクマノミ
+    type1 = 1, //メバル
+    type2 = 2, //アジ
+    type3 = 3, //ヤマメ
+    type4 = 4, //マゴチ
+    type5 = 5, //キハダ
+    type6 = 6, //マダイ
+    type7 = 7, //カジキ
+    type8 = 8, //ジンベエ
 }
 
 //列挙型で用意し以下の問題を未然に防ぐ
 //・文字列指定した際のスペルミスによるエラーの防止
 //・インデックス指定した際の可読性低下や混乱を防ぐ
 //定義した値のみ使用できるようにして安全に管理するため
-public enum SceneType
+public enum SceneName
 {
     TitleScene, //タイトルシーン
     GameScene, //ゲームシーン
@@ -27,7 +27,7 @@ public enum SceneType
 public enum GenerateParentObjectName
 {
     Pieces, //ピースオブジェクト
-    NextPieces, //Nextオブジェクト
+    listPieces, //Nextオブジェクト
 }
 
 public enum TagName
@@ -64,6 +64,6 @@ public enum PieceState
 {
     Idle, //デフォルト値
     Follow, //追従
-    Drop, //落下
-    Die, //消える
+    Fall, //落下
+    Synthesis, //合成
 }

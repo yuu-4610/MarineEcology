@@ -98,8 +98,10 @@ GameObject:
   - component: {fileID: 5402582697461108788}
   - component: {fileID: 2757778103556837093}
   - component: {fileID: 7134877376902563720}
-  - component: {fileID: -121255743043141859}
-  - component: {fileID: 6822498492982364546}
+  - component: {fileID: 4255626139082894533}
+  - component: {fileID: 3681461374639163575}
+  - component: {fileID: 3627385074144746506}
+  - component: {fileID: 2126315491218957915}
   m_Layer: 0
   m_Name: 05_piece_magochi
   m_TagString: Untagged
@@ -240,7 +242,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2.245
---- !u!114 &-121255743043141859
+--- !u!114 &4255626139082894533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,15 +251,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7109347298710332931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f456e7d4733201e4186b0777cacbc3db, type: 3}
+  m_Script: {fileID: 11500000, guid: 81b4145fcb76a7446acb56efcc714d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
-  fishNodeType: 4
-  pieceMoveAction: {fileID: 6822498492982364546}
-  isDestroyed: 0
-  hasCollider: 0
---- !u!114 &6822498492982364546
+  fishPieceType: 4
+  pieceFollowAction: {fileID: 3681461374639163575}
+  pieceFallAction: {fileID: 3627385074144746506}
+  pieceViewController: {fileID: 2126315491218957915}
+--- !u!114 &3681461374639163575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,8 +267,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 7109347298710332931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a44806cb09f162d428031b76cda1ec12, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d742684f22110e4c86c101a48e78077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 1705977972469816690}
-  removePiecePosition: 0
+  removePiecePosition: 3
+  playerTransform: {fileID: 3255777198896363471, guid: 8285dda045a1cde48a2cbc69d89d99de, type: 3}
+--- !u!114 &3627385074144746506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7109347298710332931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439ef51c885faca439a2d96fe6fa1c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2126315491218957915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7109347298710332931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b86f935cb24337448ba594006a129e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

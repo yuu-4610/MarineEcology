@@ -16,13 +16,12 @@ public class PieceStateController
     public void ChangeExecutionPieceState(PieceState pieceStateNumber)
     {
         //状態変化に伴い、状態ごとの処理も行う
-        if (pieceState == pieceStateNumber)
+        if (pieceState == pieceStateNumber && pieceStateNumber != PieceState.Follow)
         {
             Debug.Log("同じ状態になろうとしている");
             return;
         }
         pieceState = pieceStateNumber;
-        //PieceStateProcess(pieceState);
     }
     //現在のパズルピースの状態を返す
     public PieceState GetPieceState()

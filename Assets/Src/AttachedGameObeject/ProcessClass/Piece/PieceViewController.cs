@@ -11,8 +11,16 @@ public class PieceViewController : MonoBehaviour
 
     void Start()
     {
-        if(TryGetComponent<CircleCollider2D>(out circleCollider2D)) circleCollider2D = GetComponent<CircleCollider2D>();
-        else circleCollider2D.AddComponent<CircleCollider2D>();
+        //‚È‚¯‚ê‚Î’Ç‰Á
+        if (!gameObject.TryGetComponent(out CircleCollider2D circleCollider2D))
+        {
+            this.circleCollider2D = circleCollider2D.AddComponent<CircleCollider2D>();
+        }
+        //‚ ‚ê‚ÎŽæ“¾
+        else
+        {
+            this.circleCollider2D = GetComponent<CircleCollider2D>();
+        }
     }
 
     public void FollowView()

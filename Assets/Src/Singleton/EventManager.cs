@@ -7,12 +7,18 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
 
-    public event Action PieceObjectDrop; //オブジェクトが落ちた時に発火
-    public event Action PieceSyntghesis; //オブジェクト同士がくっついた時に発火
-    public event Action TrantitionGameToResult; //ゲーム終了時に発火
+    public event Action pieceObjectFall; //オブジェクトが落ちた時に発火
+    public event Action transitionGameToResult; //ゲーム終了時に発火
 
-    public event Action PieceObjectGenerate; //オブジェクトを作成したときに発火
-    public event Action NextPieceObjectGenerate;
+    public event Action<Transform, Transform, int> synthesisPieceObjectGenerate; //パズルピースが合体した時に発火
+    public event Action predictionListUpdate;
+
+    public event Action onPlayerLeftRange;
+    public event Action<int> pieceObjectGenerateDecided;
+
+    public event Action scoreLoad;
+    public event Action<int> sceneTransition;
+    public event Action scoreSave;
 
     // Use this for initialization
     private void Awake()
@@ -37,31 +43,48 @@ public class EventManager : MonoBehaviour
     }
     public void PieceObjectDropEvent()
     {
-        PieceObjectDrop?.Invoke();
+        pieceObjectFall?.Invoke();
         Debug.Log("処理完了");
     }
-
-    public void PiecesynthesisEvent()
+    public void TransitionGameToResultEvent()
     {
-        PieceSyntghesis?.Invoke();
-    }
-    public void TrantitionGameToResultEvent()
-    {
-        TrantitionGameToResult?.Invoke();
-        int count = TrantitionGameToResult?.GetInvocationList().Length ?? 0;
+        transitionGameToResult?.Invoke();
+        int count = transitionGameToResult?.GetInvocationList().Length ?? 0;
         Debug.Log($"登録数: {count}");
     }
-    public void PieceObjectGenerateEvent(GameObject generateObject, Transform objectTransform, string parentObjectName)
+    public void SynthesisPieceObjectGenerateEvent(Transform pieceTransform, Transform otherPieceTransform, int currentFishPieceTypeNumber)
     {
-        PieceObjectGenerate?.Invoke();
+        synthesisPieceObjectGenerate?.Invoke(pieceTransform, otherPieceTransform, currentFishPieceTypeNumber);
     }
-    public void NextPieceObjectGenerateEvent(GameObject generateObject, Transform objectTransform, string parentObjectName)
+    public void PredictionListUpdateEvent()
     {
-        NextPieceObjectGenerate?.Invoke();
+        predictionListUpdate?.Invoke();
+    }
+    public void OnPlayerLeftRangeEvent()
+    {
+        onPlayerLeftRange?.Invoke();
+    }
+    public void PieceObjectGenerateDecidedEvent(int generateNumber)
+    {
+        pieceObjectGenerateDecided?.Invoke(generateNumber);
     }
     public int GetObjectGenerateListenerCount()
     {
-        return PieceObjectGenerate?.GetInvocationList().Length ?? 0;
+        return synthesisPieceObjectGenerate?.GetInvocationList().Length ?? 0;
+    }
+    //スコアの更新イベント
+    public void ScoreLoadEvent()
+    {
+        scoreLoad?.Invoke();
+    }
+    //各シーン遷移後に行う処理
+    public void SceneTransitionEvent(int sceneType)
+    {
+        sceneTransition?.Invoke(sceneType);
+    }
+    public void ScoreSaveEvent()
+    {
+        scoreSave?.Invoke();
     }
     public void Debuger(Action eventFunction)
     {

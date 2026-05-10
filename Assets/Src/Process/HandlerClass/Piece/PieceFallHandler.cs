@@ -6,12 +6,14 @@ public class PieceFallHandler : IPieceMove
 {
     /*<責務>パズルピースが落とされた時に必要な命令クラス・または処理クラスを呼ぶ
      */
+    private PieceFallAction pieceFallAction;
     private PieceStateHandler pieceStateHandler;
     private PieceViewHandler pieceViewHandler;
-    private const PieceState piecestateDrop = PieceState.Drop;
+    private const PieceState piecestateDrop = PieceState.Fall;
 
-    public PieceFallHandler(PieceStateHandler pieceStateHandler, PieceViewHandler pieceViewHandler)
+    public PieceFallHandler(PieceFallAction pieceFallAction, PieceStateHandler pieceStateHandler, PieceViewHandler pieceViewHandler)
     {
+        this.pieceFallAction = pieceFallAction;
         this.pieceStateHandler = pieceStateHandler;
         this.pieceViewHandler = pieceViewHandler;
     }
@@ -19,6 +21,8 @@ public class PieceFallHandler : IPieceMove
     {
         //状態変化クラス
         pieceStateHandler.Execute((int)piecestateDrop);
+
+        pieceFallAction.PieceFall();
 
         pieceViewHandler.ChangeView((int)piecestateDrop);
         //落下処理クラス
