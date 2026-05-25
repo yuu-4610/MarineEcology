@@ -196,8 +196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d742684f22110e4c86c101a48e78077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  removePiecePosition: 3
-  playerTransform: {fileID: 3255777198896363471, guid: 8285dda045a1cde48a2cbc69d89d99de, type: 3}
 --- !u!114 &2289016422956684606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b86f935cb24337448ba594006a129e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  circleCollider2D: {fileID: 8913464459774215884}
 --- !u!1 &6318614816499839737
 GameObject:
   m_ObjectHideFlags: 0

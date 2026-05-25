@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4350768579698260939}
   - component: {fileID: 4127596567391923242}
   - component: {fileID: 3681291280150671712}
+  - component: {fileID: 8559287158510506928}
   m_Layer: 0
   m_Name: JudgeLine
   m_TagString: Untagged
@@ -147,3 +148,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
+--- !u!114 &8559287158510506928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4053607513434701074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce376f7a364c6944b02ca129d36e395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

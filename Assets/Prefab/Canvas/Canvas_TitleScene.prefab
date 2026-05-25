@@ -1003,13 +1003,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289d3f82a55be7349ae7efac627f47d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textsMeshPro:
+  myScoresText:
   - {fileID: 7501263449297220491}
   - {fileID: 5777790318585016191}
   - {fileID: 4937565551914232287}
   scoreBoard: {fileID: 7067976320572928462}
-  playGuide: {fileID: 1203797819198166081}
-  playGuidePage:
+  playGuideBord: {fileID: 1203797819198166081}
+  audioSettingBoard: {fileID: 6050669894668363455}
+  playGuidePages:
   - {fileID: 6603373921994975268}
   - {fileID: 3469695908730368119}
   - {fileID: 1619522920907123390}
@@ -1415,6 +1416,11 @@ PrefabInstance:
 --- !u!224 &2790482738896172404 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5334590240557259942, guid: edf2943255976054db3597a94ea3d3a9, type: 3}
+  m_PrefabInstance: {fileID: 7832196032181938642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6050669894668363455 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4560388292590571373, guid: edf2943255976054db3597a94ea3d3a9, type: 3}
   m_PrefabInstance: {fileID: 7832196032181938642}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9110680518402467449
