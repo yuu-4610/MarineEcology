@@ -23,7 +23,7 @@ public class PlayerMoveAction
     {
         //左右の行動処理
         var mousePoint = new Vector3(inputMousePositionXValue, playerTransform.position.y, Mathf.Abs(Camera.main.transform.position.z));
-        //オブジェクトの行動範囲（ intializeXPosition +-rangeValues ）を制限
+        //オブジェクトの行動範囲（ intializeXPosition +-moveRangeValues ）を制限
         mousePoint.x = Mathf.Clamp(mousePoint.x, this.initialPositionX - moveRangeValues, this.initialPositionX + moveRangeValues);
         playerTransform.position = mousePoint;
     }

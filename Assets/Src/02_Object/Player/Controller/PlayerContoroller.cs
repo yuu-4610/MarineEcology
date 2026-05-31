@@ -56,7 +56,7 @@ public class PlayerContoroller : MonoBehaviour
         */
 
         //移動処理クラスの参照を渡す
-        var processMoveAction = new PlayerMoveAction(this.gameObject.transform, this.gameObject.transform.position.x, 4);
+        var processMoveAction = new PlayerMoveAction(this.gameObject.transform, this.gameObject.transform.position.x, 3f);
         moveAction = new PlayerMoveHandler(processMoveAction);
 
         //落とした(=Spaceキー押下)と検知し、イベントを呼ぶクラス
@@ -71,10 +71,7 @@ public class PlayerContoroller : MonoBehaviour
         {
             //Playerを動かす処理 → マウスの操作で x 軸の変更
             moveInputValue = PlayerInput.MousePositionValue();
-            if(moveInputValue > 0)
-            {
-                moveAction.Execute(moveInputValue);
-            }
+            moveAction.Execute(moveInputValue);
         }
     }
     //落下処理命令クラスを呼び出す
