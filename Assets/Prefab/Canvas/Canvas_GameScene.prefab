@@ -260,16 +260,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreBoard: {fileID: 5474525039621099325}
-  optiongBoard: {fileID: 0}
-  pointText: {fileID: 1810810642156652709}
+  optionBoard: {fileID: 8542302141886713873}
+  scoreText: {fileID: 1810810642156652709}
   scoreRunkingsText:
   - {fileID: 4753201813878771064}
   - {fileID: 8773505954117620108}
   - {fileID: 7884348521964001068}
   gameFinishedMask: {fileID: 1055183966151466415}
   finishedText: {fileID: 985928915818848937}
-  countText: {fileID: 8865550659712602695}
+  timeCountText: {fileID: 8865550659712602695}
   resultScoreOrderText: {fileID: 7734036502054265566}
+  judgeCountTimer: {fileID: 0}
 --- !u!1 &697639557776730040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1269,7 @@ GameObject:
   - component: {fileID: 2657777641223105019}
   - component: {fileID: 1810810642156652709}
   m_Layer: 5
-  m_Name: Point
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1405,7 +1406,7 @@ GameObject:
   - component: {fileID: 8398495017184642770}
   - component: {fileID: 7986452959232510143}
   m_Layer: 5
-  m_Name: CountText
+  m_Name: TimeCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

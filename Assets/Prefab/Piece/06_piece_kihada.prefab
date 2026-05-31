@@ -98,7 +98,10 @@ GameObject:
   - component: {fileID: 2113311249158576932}
   - component: {fileID: 4666122168530133305}
   - component: {fileID: 6911388307926886894}
-  - component: {fileID: -6527380560829809249}
+  - component: {fileID: 3550620394649542632}
+  - component: {fileID: 4671492646409547838}
+  - component: {fileID: 3738547882600225910}
+  - component: {fileID: 3843221389138631977}
   m_Layer: 0
   m_Name: 06_piece_kihada
   m_TagString: Untagged
@@ -239,7 +242,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2.245
---- !u!114 &-6527380560829809249
+--- !u!114 &3550620394649542632
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,10 +251,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 7297583434022415817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f456e7d4733201e4186b0777cacbc3db, type: 3}
+  m_Script: {fileID: 11500000, guid: 81b4145fcb76a7446acb56efcc714d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectReference: {fileID: 11400000, guid: bd7ef2738666d234392df7979480cfd3, type: 2}
-  fishNodeType: 5
-  isDestroyed: 0
-  isSynthesis: 0
+  fishPieceType: 5
+  pieceFollowAction: {fileID: 4671492646409547838}
+  pieceFallAction: {fileID: 3738547882600225910}
+  pieceViewController: {fileID: 3843221389138631977}
+--- !u!114 &4671492646409547838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7297583434022415817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d742684f22110e4c86c101a48e78077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3738547882600225910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7297583434022415817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439ef51c885faca439a2d96fe6fa1c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3843221389138631977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7297583434022415817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b86f935cb24337448ba594006a129e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleCollider2D: {fileID: 6911388307926886894}

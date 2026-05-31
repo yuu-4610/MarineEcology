@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 8093940355745039691, guid: c94b24f94beca374a8c501f62e8b281c, type: 3}
   - {fileID: 3727412982716717047, guid: 6e321f1b0ca8c694f8d8043436b6f36b, type: 3}
   - {fileID: 4891647011507272305, guid: 4e2189fdd47ed1c448831d2426925131, type: 3}
-  nextPieces:
+  listPieces:
   - {fileID: 436735436694425130, guid: e4a8ba3f258f543408e8db83a8179ade, type: 3}
   - {fileID: 3225554243444398191, guid: 35875736c4e8dc5459bf099cd3021f3b, type: 3}
   - {fileID: 2019567052374421915, guid: 3bb4724e4166b08459386deabb0f408a, type: 3}
@@ -32,5 +32,4 @@ MonoBehaviour:
   - {fileID: 7568187950477856156, guid: 9de130df4f5c0314b8fa3ced8088af55, type: 3}
   - {fileID: 6129585397015617379, guid: ba2dbceba8143f241ad88b6d65b18629, type: 3}
   - {fileID: 4645578392946535572, guid: 4b1f84c53e676754b9592bf6dcd56ee8, type: 3}
-  player: {fileID: 875502014241020488, guid: 8285dda045a1cde48a2cbc69d89d99de, type: 3}
   gameSceneUI: {fileID: 471897892848309295, guid: b62485f664d5f984c9a0fec137cfec95, type: 3}
