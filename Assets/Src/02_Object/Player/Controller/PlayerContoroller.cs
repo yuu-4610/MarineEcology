@@ -44,7 +44,7 @@ public class PlayerContoroller : MonoBehaviour
         MoveInput();
         //落下命令の処理
         FallInput();
-        TestInputReception();
+        InputReception();
     }
     //初期化子
     private void Initialize()
@@ -84,7 +84,7 @@ public class PlayerContoroller : MonoBehaviour
         fallInputValue = PlayerInput.PieceObjectDropInput();
         if(fallInputValue > 0) dropAction.Execute();
     }
-    private void TestInputReception()
+    private void InputReception()
     {
         //設定ボタンの表示切り替え → Left,RightShiftを押したら
         if (PlayerInput.OptionButton() == 1)

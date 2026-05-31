@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDropHandler
 {
-    /*<責務>プレイヤーによるパズルピースの落下処理命令を行う。
+    /*<責務>プレイヤーによるパズルピースの投下処理命令を行う。
      */
     private PlayerDropAction playerDropAction;
     public PlayerDropHandler(PlayerDropAction playerDropAction)
