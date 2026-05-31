@@ -17,6 +17,8 @@ public class PlayerContoroller : MonoBehaviour
     private float fallInputValue; //落下処理の入力値、持続的に所持するため
     private bool isauthorityToAct;
 
+    private float moveLimit = 3f;
+
     private void Awake()
     {
         Initialize();
@@ -56,7 +58,7 @@ public class PlayerContoroller : MonoBehaviour
         */
 
         //移動処理クラスの参照を渡す
-        var processMoveAction = new PlayerMoveAction(this.gameObject.transform, this.gameObject.transform.position.x, 3f);
+        var processMoveAction = new PlayerMoveAction(this.gameObject.transform, this.gameObject.transform.position.x, moveLimit);
         moveAction = new PlayerMoveHandler(processMoveAction);
 
         //落とした(=Spaceキー押下)と検知し、イベントを呼ぶクラス
